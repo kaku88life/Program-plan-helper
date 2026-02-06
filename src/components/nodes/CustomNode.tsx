@@ -396,8 +396,8 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
         )
     }
 
-    // 7. Standard Inputs (Text, Search)
-    if (uiType === 'Input' || toolboxId === 'input_text' || toolboxId === 'input_search') {
+    // 7. Standard Inputs (Text, Search) - exclude select which has specialized renderer
+    if ((uiType === 'Input' || toolboxId === 'input_text' || toolboxId === 'input_search') && toolboxId !== 'select') {
         return (
             <>
                 <NodeResizer minWidth={150} minHeight={35} isVisible={selected} />

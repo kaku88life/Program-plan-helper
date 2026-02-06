@@ -153,6 +153,7 @@ function FlowContent() {
           edgeTypes={edgeTypes}
           onDragOver={onDragOver}
           onDrop={onDrop}
+          deleteKeyCode={['Delete', 'Backspace']}
           fitView
           className="bg-transparent"
         >
