@@ -440,8 +440,9 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
         );
     }
 
-    // 9. Buttons
-    if (uiType === 'Button' || toolboxId?.includes('button')) {
+    // 9. Buttons (exclude items that have specialized renderers)
+    const specializedIds = ['breadcrumb', 'tag', 'badge', 'toast', 'select', 'divider', 'list', 'alert'];
+    if ((uiType === 'Button' || toolboxId?.includes('button')) && !specializedIds.includes(toolboxId || '')) {
         const isOutline = variant === 'outline';
         const isGhost = variant === 'ghost';
         const isLink = variant === 'link';
