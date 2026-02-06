@@ -58,9 +58,11 @@ type Translations = {
     uiComponents: {
         title: string;
         layout: string;
+        ui_nav: string;
         buttons: string;
         inputs: string;
         display: string;
+        ui_feedback: string;
         items: {
             container: string;
             card: string;
@@ -183,9 +185,11 @@ const translations: Record<Language, Translations> = {
         uiComponents: {
             title: 'UI Components',
             layout: 'Layout & Containers',
+            ui_nav: 'Navigation',
             buttons: 'Buttons & Controls',
             inputs: 'Forms & Inputs',
-            display: 'Display',
+            display: 'Data Display',
+            ui_feedback: 'Feedback & Alerts',
             items: {
                 container: 'Container',
                 card: 'Card',
@@ -398,9 +402,11 @@ const translations: Record<Language, Translations> = {
         uiComponents: {
             title: 'UI 元件庫',
             layout: '佈局與容器',
+            ui_nav: '導覽元件',
             buttons: '按鈕與控制',
             inputs: '表單與輸入',
-            display: '展示元件',
+            display: '資料展示',
+            ui_feedback: '回饋與通知',
             items: {
                 container: '容器框架',
                 card: '資訊卡片',

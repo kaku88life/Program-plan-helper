@@ -23,9 +23,10 @@ const Sidebar = ({ nodeCounts = {} }: SidebarProps) => {
         'frontend': true,
         // Subcategories - default first one open
         'layout': true,
+        'ui_nav': false,
         'buttons': false,
-        'forms': false,
-        'data_display': false,
+        'inputs': false,
+        'display': false,
         'feedback': false,
     });
 
