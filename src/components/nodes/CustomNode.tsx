@@ -211,6 +211,60 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
         </button>
     );
 
+    // Quad-Directional Handles Component
+    const QuadHandles = () => (
+        <>
+            <Handle
+                type="target"
+                position={Position.Top}
+                id="top-target"
+                className="!w-2 !h-2 !bg-slate-300 !border-white !border hover:!bg-primary transition-colors !opacity-0 group-hover:!opacity-100"
+            />
+            <Handle
+                type="source"
+                position={Position.Top}
+                id="top-source"
+                className="!w-2 !h-2 !bg-slate-300 !border-white !border hover:!bg-primary transition-colors !opacity-0 group-hover:!opacity-100"
+            />
+            <Handle
+                type="target"
+                position={Position.Bottom}
+                id="bottom-target"
+                className="!w-2 !h-2 !bg-slate-300 !border-white !border hover:!bg-primary transition-colors !opacity-0 group-hover:!opacity-100"
+            />
+            <Handle
+                type="source"
+                position={Position.Bottom}
+                id="bottom-source"
+                className="!w-2 !h-2 !bg-slate-300 !border-white !border hover:!bg-primary transition-colors !opacity-0 group-hover:!opacity-100"
+            />
+            <Handle
+                type="target"
+                position={Position.Left}
+                id="left-target"
+                className="!w-2 !h-2 !bg-slate-300 !border-white !border hover:!bg-primary transition-colors !opacity-0 group-hover:!opacity-100"
+            />
+            <Handle
+                type="source"
+                position={Position.Left}
+                id="left-source"
+                className="!w-2 !h-2 !bg-slate-300 !border-white !border hover:!bg-primary transition-colors !opacity-0 group-hover:!opacity-100"
+            />
+            <Handle
+                type="target"
+                position={Position.Right}
+                id="right-target"
+                className="!w-2 !h-2 !bg-slate-300 !border-white !border hover:!bg-primary transition-colors !opacity-0 group-hover:!opacity-100"
+            />
+            <Handle
+                type="source"
+                position={Position.Right}
+                id="right-source"
+                className="!w-2 !h-2 !bg-slate-300 !border-white !border hover:!bg-primary transition-colors !opacity-0 group-hover:!opacity-100"
+            />
+        </>
+    );
+
     // --- Specialized Renderers ---
 
     // 1. Navbar
@@ -233,6 +287,7 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
                             <div className={`w-20 h-8 rounded bg-slate-100 ${activeColor.bg}`} />
                         </div>
                     </div>
+                    <QuadHandles />
                 </div>
             </>
         );
@@ -257,6 +312,7 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
                             ))}
                         </div>
                     </div>
+                    <QuadHandles />
                 </div>
             </>
         );
@@ -350,6 +406,7 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
                             <div className="text-xs text-slate-400 text-center mt-2">{label} Content</div>
                         </div>
                     </div>
+                    <QuadHandles />
                 </div>
             </>
         )
@@ -391,6 +448,7 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
 
                         {toolboxId !== 'slider' && <span className="text-xs font-medium text-slate-700 truncate">{label}</span>}
                     </div>
+                    <QuadHandles />
                 </div>
             </>
         )
@@ -412,8 +470,7 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
                         </span>
                         <span className="text-sm text-slate-400 flex-1 truncate">{label || 'Input'}</span>
                     </div>
-                    <Handle type="target" position={Position.Left} className="!bg-transparent !opacity-0" />
-                    <Handle type="source" position={Position.Right} className="!bg-transparent !opacity-0" />
+                    <QuadHandles />
                 </div>
             </>
         );
@@ -433,8 +490,7 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
                         <ImageIcon size={24} className="mb-1 opacity-50" />
                         <span className="text-[10px] truncate w-full text-center px-1 font-mono">IMG</span>
                     </div>
-                    <Handle type="target" position={Position.Top} className="!bg-transparent !opacity-0" />
-                    <Handle type="source" position={Position.Bottom} className="!bg-transparent !opacity-0" />
+                    <QuadHandles />
                 </div>
             </>
         );
@@ -473,8 +529,7 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
                     >
                         {label}
                     </button>
-                    <Handle type="target" position={Position.Left} className="!bg-transparent !opacity-0" />
-                    <Handle type="source" position={Position.Right} className="!bg-transparent !opacity-0" />
+                    <QuadHandles />
                 </div>
             </>
         );
@@ -494,8 +549,7 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
                         <span className="text-slate-300">/</span>
                         <span className="text-xs text-slate-400">{label}</span>
                     </div>
-                    <Handle type="target" position={Position.Left} className="!bg-transparent !opacity-0" />
-                    <Handle type="source" position={Position.Right} className="!bg-transparent !opacity-0" />
+                    <QuadHandles />
                 </div>
             </>
         );
@@ -509,8 +563,7 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
                 <div className="group relative w-full h-full min-w-[100px] flex items-center" onDoubleClick={() => setIsEditing(true)}>
                     <DeleteBtn />
                     <div className={`w-full border-t-2 ${activeColor.border.replace('200', '300')}`} />
-                    <Handle type="target" position={Position.Left} className="!bg-transparent !opacity-0" />
-                    <Handle type="source" position={Position.Right} className="!bg-transparent !opacity-0" />
+                    <QuadHandles />
                 </div>
             </>
         );
@@ -533,8 +586,7 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
                             ))}
                         </div>
                     </div>
-                    <Handle type="target" position={Position.Top} className="!bg-transparent !opacity-0" />
-                    <Handle type="source" position={Position.Bottom} className="!bg-transparent !opacity-0" />
+                    <QuadHandles />
                 </div>
             </>
         );
@@ -550,8 +602,7 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
                     <div className={`w-full h-full inline-flex items-center justify-center px-2 py-1 rounded-md text-xs font-bold ${activeColor.bg.replace('50', '600')} text-white border-transparent shadow-sm ${selected ? 'ring-2 ring-primary border-primary' : ''}`}>
                         {label}
                     </div>
-                    <Handle type="target" position={Position.Left} className="!bg-transparent !opacity-0" />
-                    <Handle type="source" position={Position.Right} className="!bg-transparent !opacity-0" />
+                    <QuadHandles />
                 </div>
             </>
         );
@@ -564,11 +615,10 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
                 <NodeResizer minWidth={24} minHeight={24} isVisible={selected} keepAspectRatio />
                 <div className="group relative w-full h-full" onDoubleClick={() => setIsEditing(true)}>
                     <DeleteBtn />
-                    <div className={`w-full h-full min-w-[24px] min-h-[24px] rounded-full flex items-center justify-center text-xs font-bold text-white shadow-md ${activeColor.bg.replace('50', '600')} ${selected ? 'ring-2 ring-primary ring-offset-2' : 'ring-1 ring-black/10'}`}>
+                    <div className={`w-full h-full min-w-[24px] min-h-[24px] rounded-full flex items-center justify-center text-xs font-bold text-white shadow-lg ${activeColor.bg.replace('50', '700')} ${selected ? 'ring-2 ring-primary ring-offset-2' : 'ring-2 ring-white'}`}>
                         {label.length > 2 ? '1' : label || '1'}
                     </div>
-                    <Handle type="target" position={Position.Left} className="!bg-transparent !opacity-0" />
-                    <Handle type="source" position={Position.Right} className="!bg-transparent !opacity-0" />
+                    <QuadHandles />
                 </div>
             </>
         );
@@ -590,8 +640,7 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
                             <div className="text-xs text-slate-500 mt-0.5">This is an alert message.</div>
                         </div>
                     </div>
-                    <Handle type="target" position={Position.Top} className="!bg-transparent !opacity-0" />
-                    <Handle type="source" position={Position.Bottom} className="!bg-transparent !opacity-0" />
+                    <QuadHandles />
                 </div>
             </>
         );
@@ -611,8 +660,7 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
                         <span className="text-sm font-medium flex-1 truncate">{label}</span>
                         <X size={14} className="text-slate-400 flex-shrink-0" />
                     </div>
-                    <Handle type="target" position={Position.Left} className="!bg-transparent !opacity-0" />
-                    <Handle type="source" position={Position.Right} className="!bg-transparent !opacity-0" />
+                    <QuadHandles />
                 </div>
             </>
         );
@@ -629,8 +677,7 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
                         <span className="text-sm text-slate-500 truncate">{label || 'Select...'}</span>
                         <ChevronDown size={14} className="text-slate-400 flex-shrink-0" />
                     </div>
-                    <Handle type="target" position={Position.Left} className="!bg-transparent !opacity-0" />
-                    <Handle type="source" position={Position.Right} className="!bg-transparent !opacity-0" />
+                    <QuadHandles />
                 </div>
             </>
         );
@@ -680,8 +727,7 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
                     </div>
                 </div>
 
-                <Handle type="target" position={Position.Top} className="!bg-slate-300 !w-2 !h-2" />
-                <Handle type="source" position={Position.Bottom} className="!bg-slate-300 !w-2 !h-2" />
+                <QuadHandles />
             </div>
         </>
     );
