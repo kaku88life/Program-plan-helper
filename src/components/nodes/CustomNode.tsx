@@ -547,7 +547,7 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
                 <NodeResizer minWidth={60} minHeight={24} isVisible={selected} />
                 <div className="group relative w-full h-full" onDoubleClick={() => setIsEditing(true)}>
                     <DeleteBtn />
-                    <div className={`w-full h-full inline-flex items-center justify-center px-2 py-1 rounded-md text-xs font-medium ${activeColor.bg} ${activeColor.text} border ${activeColor.border} ${selected ? 'ring-2 ring-primary' : ''}`}>
+                    <div className={`w-full h-full inline-flex items-center justify-center px-2 py-1 rounded-md text-xs font-bold ${activeColor.bg.replace('50', '600')} text-white border-transparent shadow-sm ${selected ? 'ring-2 ring-primary border-primary' : ''}`}>
                         {label}
                     </div>
                     <Handle type="target" position={Position.Left} className="!bg-transparent !opacity-0" />
@@ -564,8 +564,8 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
                 <NodeResizer minWidth={24} minHeight={24} isVisible={selected} keepAspectRatio />
                 <div className="group relative w-full h-full" onDoubleClick={() => setIsEditing(true)}>
                     <DeleteBtn />
-                    <div className={`w-full h-full min-w-[24px] min-h-[24px] rounded-full flex items-center justify-center text-xs font-bold text-white ${activeColor.bg.replace('50', '500')} ${selected ? 'ring-2 ring-primary ring-offset-1' : ''}`}>
-                        3
+                    <div className={`w-full h-full min-w-[24px] min-h-[24px] rounded-full flex items-center justify-center text-xs font-bold text-white shadow-md ${activeColor.bg.replace('50', '600')} ${selected ? 'ring-2 ring-primary ring-offset-2' : 'ring-1 ring-black/10'}`}>
+                        {label.length > 2 ? '1' : label || '1'}
                     </div>
                     <Handle type="target" position={Position.Left} className="!bg-transparent !opacity-0" />
                     <Handle type="source" position={Position.Right} className="!bg-transparent !opacity-0" />

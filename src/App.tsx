@@ -18,7 +18,8 @@ import ProjectWizard from './components/wizard/ProjectWizard';
 import { CodingEncyclopedia } from './components/knowledge/CodingEncyclopedia'; // Import Encyclopedia
 import type { ProjectTemplate } from './data/templates';
 import { LanguageProvider, useLanguage } from './context/LanguageContext';
-import { Languages, GraduationCap } from 'lucide-react';
+import { Languages, GraduationCap, Layers } from 'lucide-react';
+import { LayerControl } from './components/ui/LayerControl';
 
 const initialNodes: Node[] = [];
 const initialEdges: Edge[] = [];
@@ -33,6 +34,7 @@ function FlowContent() {
   const { screenToFlowPosition, fitView } = useReactFlow();
   const [showWizard, setShowWizard] = useState(true);
   const [showEncyclopedia, setShowEncyclopedia] = useState(false); // State for Encyclopaedia
+  const [showLayerControl, setShowLayerControl] = useState(false); // State for Layer Control
   const { language, setLanguage } = useLanguage();
 
   // Calculate node counts for Toolbox
@@ -133,10 +135,22 @@ function FlowContent() {
             Coding 101
           </button>
 
+          {/* Layer Control Button */}
+          <button
+            onClick={() => setShowLayerControl(!showLayerControl)}
+            className={`flex items-center gap-2 px-3 py-1.5 shadow-md rounded-full border transition-all ${showLayerControl
+              ? 'bg-primary text-white border-primary'
+              : 'bg-white text-slate-600 border-slate-200 hover:border-primary hover:text-primary hover:bg-blue-50'
+              }`}
+          >
+            <Layers size={16} />
+            <span className="text-sm font-medium">{language === 'zh' ? '圖層' : 'Layers'}</span>
+          </button>
+
           {/* Language Switcher */}
           <button
             onClick={() => setLanguage(language === 'en' ? 'zh' : 'en')}
-            className="flex items-center gap-2 px-3 py-1.5 bg-white shadow-md rounded-full border border-slate-200 text-sm font-medium text-slate-600 hover:text-primary hover:border-primary transition-all"
+            className="flex items-center gap-2 px-4 py-1.5 bg-white shadow-md rounded-full border border-slate-200 text-sm font-medium text-slate-600 hover:text-primary hover:border-primary transition-all hover:bg-blue-50"
           >
             <Languages size={16} />
             {language === 'en' ? '中文' : 'English'}
@@ -161,6 +175,14 @@ function FlowContent() {
           <Controls className="bg-white p-1 rounded-lg shadow border border-slate-200 text-slate-500" />
         </ReactFlow>
       </div>
+
+      {/* Layer Control Panel */}
+      {showLayerControl && (
+        <LayerControl
+          nodes={nodes}
+          onClose={() => setShowLayerControl(false)}
+        />
+      )}
 
       {showWizard && (
         <ProjectWizard

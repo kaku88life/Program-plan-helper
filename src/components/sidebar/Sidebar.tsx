@@ -85,10 +85,23 @@ const Sidebar = ({ nodeCounts = {} }: SidebarProps) => {
                     </span>
                 )}
 
-                {/* Question mark icon for tooltip */}
+                {/* Question mark icon for tooltip with refined positioning */}
                 {(isTech || uiDescription) && (
-                    <div className="p-1 cursor-help text-slate-400 hover:text-slate-600 group-hover:opacity-100 opacity-50 transition-opacity">
-                        <HelpCircle size={12} />
+                    <div className="relative group/tip">
+                        <div className="p-1 cursor-help text-slate-400 hover:text-slate-600 group-hover:opacity-100 opacity-50 transition-opacity">
+                            <HelpCircle size={12} />
+                        </div>
+
+                        {/* Tooltip Content - precisely next to the icon */}
+                        <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-[100] opacity-0 group-hover/tip:opacity-100 pointer-events-none transition-opacity duration-200">
+                            <div className="bg-slate-800 text-white text-xs px-3 py-2 rounded-lg shadow-xl w-[220px] whitespace-normal border border-slate-700 relative">
+                                {/* Small Arrow */}
+                                <div className="absolute right-full top-1/2 -translate-y-1/2 border-8 border-transparent border-r-slate-800" />
+
+                                <div className="font-medium text-slate-100 mb-1">{label}</div>
+                                <div className="text-slate-300 leading-relaxed">{techDetails?.summary || uiDescription}</div>
+                            </div>
+                        </div>
                     </div>
                 )}
             </div>
