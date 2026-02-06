@@ -110,23 +110,12 @@ const Sidebar = ({ nodeCounts = {} }: SidebarProps) => {
             return (
                 <div key={item.id} className="relative group/tip">
                     {content}
-                    <div className="fixed z-[9999] opacity-0 group-hover/tip:opacity-100 pointer-events-none transition-opacity duration-200"
-                        style={{
-                            left: '280px',
-                            top: 'var(--tooltip-top, 50%)',
-                        }}
-                    >
-                        <div
-                            className="bg-slate-800 text-white text-xs px-3 py-2 rounded-lg shadow-xl max-w-[220px] whitespace-normal border border-slate-700"
-                            ref={(el) => {
-                                if (el) {
-                                    const rect = el.parentElement?.parentElement?.getBoundingClientRect();
-                                    if (rect) {
-                                        el.parentElement!.style.setProperty('--tooltip-top', `${rect.top + rect.height / 2 - 20}px`);
-                                    }
-                                }
-                            }}
-                        >
+                    <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-[100] opacity-0 group-hover/tip:opacity-100 pointer-events-none transition-opacity duration-200">
+                        {/* Tooltip Content */}
+                        <div className="bg-slate-800 text-white text-xs px-3 py-2 rounded-lg shadow-xl w-[220px] whitespace-normal border border-slate-700 relative">
+                            {/* Small Arrow */}
+                            <div className="absolute right-full top-1/2 -translate-y-1/2 border-8 border-transparent border-r-slate-800" />
+
                             <div className="font-medium text-slate-100 mb-1">{label}</div>
                             <div className="text-slate-300 leading-relaxed">{uiDescription}</div>
                         </div>
@@ -168,7 +157,7 @@ const Sidebar = ({ nodeCounts = {} }: SidebarProps) => {
                     }
 
                     return (
-                        <div key={category.id} className="rounded-xl border border-slate-100 overflow-hidden bg-white shadow-sm">
+                        <div key={category.id} className="rounded-xl border border-slate-100 bg-white shadow-sm">
                             {/* Category Header */}
                             <button
                                 onClick={() => toggleExpand(category.id)}

@@ -397,7 +397,7 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
     }
 
     // 7. Standard Inputs (Text, Search) - exclude select which has specialized renderer
-    if ((uiType === 'Input' || toolboxId === 'input_text' || toolboxId === 'input_search') && toolboxId !== 'select') {
+    if ((uiType === 'Input' || toolboxId === 'inp_text' || toolboxId === 'inp_search') && toolboxId !== 'select') {
         return (
             <>
                 <NodeResizer minWidth={150} minHeight={35} isVisible={selected} />
@@ -408,7 +408,7 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
                         ${selected ? 'border-primary ring-1 ring-primary' : `${activeColor.border}`}
                     `}>
                         <span className="text-slate-400">
-                            {(label.toLowerCase().includes('search') || toolboxId === 'input_search') ? <Search size={14} /> : <Edit3 size={14} />}
+                            {(label.toLowerCase().includes('search') || toolboxId === 'inp_search') ? <Search size={14} /> : <Edit3 size={14} />}
                         </span>
                         <span className="text-sm text-slate-400 flex-1 truncate">{label || 'Input'}</span>
                     </div>
