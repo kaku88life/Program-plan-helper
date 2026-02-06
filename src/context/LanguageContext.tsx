@@ -426,7 +426,7 @@ const translations: Record<Language, Translations> = {
                 list: '列表',
                 tag: '標籤',
                 avatar: '頭像',
-                badge: '徽章',
+                badge: '數字標記',
                 trigger: '觸發器',
                 logic: '邏輯',
                 action: '動作',
