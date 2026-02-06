@@ -479,6 +479,162 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
         );
     }
 
+    // 10. Breadcrumb
+    if (toolboxId === 'breadcrumb') {
+        return (
+            <>
+                <NodeResizer minWidth={200} minHeight={30} isVisible={selected} />
+                <div className="group relative w-full h-full min-w-[200px]" onDoubleClick={() => setIsEditing(true)}>
+                    <DeleteBtn />
+                    <div className={`w-full h-full bg-white border border-slate-200 rounded px-3 py-2 flex items-center gap-2 shadow-sm ${selected ? 'ring-2 ring-primary border-primary' : ''}`}>
+                        <span className={`text-xs ${activeColor.text} font-medium`}>Home</span>
+                        <span className="text-slate-300">/</span>
+                        <span className="text-xs text-slate-500">Products</span>
+                        <span className="text-slate-300">/</span>
+                        <span className="text-xs text-slate-400">{label}</span>
+                    </div>
+                    <Handle type="target" position={Position.Left} className="!bg-transparent !opacity-0" />
+                    <Handle type="source" position={Position.Right} className="!bg-transparent !opacity-0" />
+                </div>
+            </>
+        );
+    }
+
+    // 11. Divider
+    if (toolboxId === 'divider') {
+        return (
+            <>
+                <NodeResizer minWidth={100} minHeight={20} isVisible={selected} />
+                <div className="group relative w-full h-full min-w-[100px] flex items-center" onDoubleClick={() => setIsEditing(true)}>
+                    <DeleteBtn />
+                    <div className={`w-full border-t-2 ${activeColor.border.replace('200', '300')}`} />
+                    <Handle type="target" position={Position.Left} className="!bg-transparent !opacity-0" />
+                    <Handle type="source" position={Position.Right} className="!bg-transparent !opacity-0" />
+                </div>
+            </>
+        );
+    }
+
+    // 12. List
+    if (toolboxId === 'list') {
+        return (
+            <>
+                <NodeResizer minWidth={150} minHeight={120} isVisible={selected} />
+                <div className="group relative w-full h-full min-w-[150px]" onDoubleClick={() => setIsEditing(true)}>
+                    <DeleteBtn />
+                    <div className={`w-full h-full bg-white border border-slate-200 rounded-lg p-3 shadow-sm ${selected ? 'ring-2 ring-primary border-primary' : ''}`}>
+                        <div className="space-y-2">
+                            {['Item 1', 'Item 2', 'Item 3'].map((item, i) => (
+                                <div key={i} className="flex items-center gap-2">
+                                    <div className={`w-1.5 h-1.5 rounded-full ${activeColor.bg.replace('50', '500')}`} />
+                                    <span className="text-xs text-slate-600">{item}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    <Handle type="target" position={Position.Top} className="!bg-transparent !opacity-0" />
+                    <Handle type="source" position={Position.Bottom} className="!bg-transparent !opacity-0" />
+                </div>
+            </>
+        );
+    }
+
+    // 13. Tag
+    if (toolboxId === 'tag') {
+        return (
+            <>
+                <NodeResizer minWidth={60} minHeight={24} isVisible={selected} />
+                <div className="group relative w-full h-full" onDoubleClick={() => setIsEditing(true)}>
+                    <DeleteBtn />
+                    <div className={`w-full h-full inline-flex items-center justify-center px-2 py-1 rounded-md text-xs font-medium ${activeColor.bg} ${activeColor.text} border ${activeColor.border} ${selected ? 'ring-2 ring-primary' : ''}`}>
+                        {label}
+                    </div>
+                    <Handle type="target" position={Position.Left} className="!bg-transparent !opacity-0" />
+                    <Handle type="source" position={Position.Right} className="!bg-transparent !opacity-0" />
+                </div>
+            </>
+        );
+    }
+
+    // 14. Badge
+    if (toolboxId === 'badge') {
+        return (
+            <>
+                <NodeResizer minWidth={24} minHeight={24} isVisible={selected} keepAspectRatio />
+                <div className="group relative w-full h-full" onDoubleClick={() => setIsEditing(true)}>
+                    <DeleteBtn />
+                    <div className={`w-full h-full min-w-[24px] min-h-[24px] rounded-full flex items-center justify-center text-xs font-bold text-white ${activeColor.bg.replace('50', '500')} ${selected ? 'ring-2 ring-primary ring-offset-1' : ''}`}>
+                        3
+                    </div>
+                    <Handle type="target" position={Position.Left} className="!bg-transparent !opacity-0" />
+                    <Handle type="source" position={Position.Right} className="!bg-transparent !opacity-0" />
+                </div>
+            </>
+        );
+    }
+
+    // 15. Alert
+    if (toolboxId === 'alert') {
+        return (
+            <>
+                <NodeResizer minWidth={250} minHeight={60} isVisible={selected} />
+                <div className="group relative w-full h-full min-w-[250px]" onDoubleClick={() => setIsEditing(true)}>
+                    <DeleteBtn />
+                    <div className={`w-full h-full ${activeColor.bg} border ${activeColor.border} rounded-lg p-3 flex items-start gap-3 ${selected ? 'ring-2 ring-primary' : ''}`}>
+                        <div className={`w-5 h-5 rounded-full ${activeColor.bg.replace('50', '100')} flex items-center justify-center flex-shrink-0 mt-0.5`}>
+                            <span className={`text-xs font-bold ${activeColor.text}`}>!</span>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                            <div className={`text-sm font-semibold ${activeColor.text}`}>{label}</div>
+                            <div className="text-xs text-slate-500 mt-0.5">This is an alert message.</div>
+                        </div>
+                    </div>
+                    <Handle type="target" position={Position.Top} className="!bg-transparent !opacity-0" />
+                    <Handle type="source" position={Position.Bottom} className="!bg-transparent !opacity-0" />
+                </div>
+            </>
+        );
+    }
+
+    // 16. Toast
+    if (toolboxId === 'toast') {
+        return (
+            <>
+                <NodeResizer minWidth={250} minHeight={50} isVisible={selected} />
+                <div className="group relative w-full h-full min-w-[250px]" onDoubleClick={() => setIsEditing(true)}>
+                    <DeleteBtn />
+                    <div className={`w-full h-full bg-slate-800 text-white rounded-lg px-4 py-3 flex items-center gap-3 shadow-lg ${selected ? 'ring-2 ring-primary ring-offset-2' : ''}`}>
+                        <div className={`w-5 h-5 rounded-full ${activeColor.bg.replace('50', '500')} flex items-center justify-center flex-shrink-0`}>
+                            <Check size={12} className="text-white" />
+                        </div>
+                        <span className="text-sm font-medium flex-1 truncate">{label}</span>
+                        <X size={14} className="text-slate-400 flex-shrink-0" />
+                    </div>
+                    <Handle type="target" position={Position.Left} className="!bg-transparent !opacity-0" />
+                    <Handle type="source" position={Position.Right} className="!bg-transparent !opacity-0" />
+                </div>
+            </>
+        );
+    }
+
+    // 17. Select (Dropdown)
+    if (toolboxId === 'select') {
+        return (
+            <>
+                <NodeResizer minWidth={150} minHeight={35} isVisible={selected} />
+                <div className="group relative w-full h-full min-w-[150px]" onDoubleClick={() => setIsEditing(true)}>
+                    <DeleteBtn />
+                    <div className={`w-full h-full bg-white border rounded-md shadow-sm flex items-center justify-between px-3 py-2 ${selected ? 'border-primary ring-1 ring-primary' : `${activeColor.border}`}`}>
+                        <span className="text-sm text-slate-500 truncate">{label || 'Select...'}</span>
+                        <ChevronDown size={14} className="text-slate-400 flex-shrink-0" />
+                    </div>
+                    <Handle type="target" position={Position.Left} className="!bg-transparent !opacity-0" />
+                    <Handle type="source" position={Position.Right} className="!bg-transparent !opacity-0" />
+                </div>
+            </>
+        );
+    }
+
     // Default: Container / Card / Generic
     // Fallback for everything else
     const isWindow = variant === 'window' || uiType === 'Container' || toolboxId === 'container';

@@ -62,6 +62,10 @@ const Sidebar = ({ nodeCounts = {} }: SidebarProps) => {
         // @ts-ignore
         const techDetails = isTech && item.techId ? t.techDetails[item.techId] : undefined;
 
+        // Get UI description for tooltip
+        // @ts-ignore
+        const uiDescription = !isTech && item.labelKey ? t.uiDescriptions[item.labelKey] : undefined;
+
         const content = (
             <div
                 className={`
@@ -81,20 +85,36 @@ const Sidebar = ({ nodeCounts = {} }: SidebarProps) => {
                     </span>
                 )}
 
-                {isTech && (
-                    <div className="p-1 cursor-help text-slate-400 hover:text-slate-600">
+                {/* Question mark icon for tooltip */}
+                {(isTech || uiDescription) && (
+                    <div className="p-1 cursor-help text-slate-400 hover:text-slate-600 group-hover:opacity-100 opacity-50 transition-opacity">
                         <HelpCircle size={12} />
                     </div>
                 )}
             </div>
         );
 
-        if (isTech) {
+        // Wrap with tooltip for tech items
+        if (isTech && techDetails) {
             return (
                 <div key={item.id} className="relative group/item">
                     <RichTooltip title={label} content={techDetails}>
                         {content}
                     </RichTooltip>
+                </div>
+            );
+        }
+
+        // Wrap with simple tooltip for UI items
+        if (uiDescription) {
+            return (
+                <div key={item.id} className="relative group/item">
+                    <div className="peer">{content}</div>
+                    <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-50 opacity-0 peer-hover:opacity-100 pointer-events-none transition-opacity duration-200">
+                        <div className="bg-slate-800 text-white text-xs px-3 py-2 rounded-lg shadow-lg max-w-[200px] whitespace-normal">
+                            {uiDescription}
+                        </div>
+                    </div>
                 </div>
             );
         }

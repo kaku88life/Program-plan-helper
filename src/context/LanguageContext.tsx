@@ -22,7 +22,9 @@ type Translations = {
         database: string;
         security: string;
         quality: string;
+        workflow: string;
     };
+    uiDescriptions: Record<string, string>;
     // New fields
     attributes: {
         mainPage: string;
@@ -118,6 +120,36 @@ const translations: Record<Language, Translations> = {
             database: 'Database',
             security: 'Security',
             quality: 'Quality & Test',
+            workflow: 'Interactions',
+        },
+        uiDescriptions: {
+            container: 'A wrapper element to group other components',
+            card: 'A bordered box for displaying content',
+            divider: 'A line to separate content sections',
+            navbar: 'Top navigation bar with logo and links',
+            sidebar: 'Vertical navigation panel',
+            tabs: 'Switchable content panels',
+            breadcrumb: 'Shows current page location in hierarchy',
+            button_primary: 'Main action button',
+            button_secondary: 'Secondary action button',
+            input_text: 'Text input field',
+            input_search: 'Search input with icon',
+            select: 'Dropdown selection menu',
+            checkbox: 'Multiple selection option',
+            switch: 'On/Off toggle control',
+            slider: 'Range value selector',
+            image: 'Image placeholder',
+            table: 'Data grid with rows and columns',
+            list: 'Ordered or unordered list items',
+            avatar: 'User profile picture',
+            tag: 'Small label for categorization',
+            badge: 'Notification or status indicator',
+            modal: 'Popup dialog window',
+            alert: 'Important message box',
+            toast: 'Temporary notification message',
+            trigger: 'Event that starts an action',
+            logic: 'Conditional processing step',
+            action: 'Result or output of a flow',
         },
         attributes: {
             mainPage: 'Main Page',
@@ -303,6 +335,36 @@ const translations: Record<Language, Translations> = {
             database: '資料庫',
             security: '資安防護',
             quality: '測試品質',
+            workflow: '互動流程',
+        },
+        uiDescriptions: {
+            container: '用於包裝其他元件的容器',
+            card: '有邊框的內容展示區塊',
+            divider: '用於分隔內容的線條',
+            navbar: '頂部導航欄，包含 Logo 和連結',
+            sidebar: '側邊垂直導航面板',
+            tabs: '可切換的分頁內容',
+            breadcrumb: '顯示當前頁面在網站中的位置',
+            button_primary: '主要操作按鈕',
+            button_secondary: '次要操作按鈕',
+            input_text: '文字輸入欄位',
+            input_search: '帶圖示的搜尋框',
+            select: '下拉式選擇選單',
+            checkbox: '可多選的核取方塊',
+            switch: '開關切換控制',
+            slider: '範圍數值選擇器',
+            image: '圖片佔位區塊',
+            table: '資料表格，有列與欄',
+            list: '有序或無序的項目列表',
+            avatar: '使用者頭像圖片',
+            tag: '用於分類的小標籤',
+            badge: '通知或狀態指示器',
+            modal: '彈出式對話視窗',
+            alert: '重要訊息提示框',
+            toast: '暫時性的通知訊息',
+            trigger: '觸發動作的事件',
+            logic: '條件判斷處理步驟',
+            action: '流程的結果或輸出',
         },
         attributes: {
             mainPage: '主頁面',
