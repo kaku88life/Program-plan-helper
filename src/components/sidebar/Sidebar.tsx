@@ -17,10 +17,16 @@ interface SidebarProps {
 
 const Sidebar = ({ nodeCounts = {} }: SidebarProps) => {
     const { t } = useLanguage();
-    // State to track expanded categories. Default 'ui_lib' to open.
+    // State to track expanded categories and subcategories
     const [expanded, setExpanded] = useState<Record<string, boolean>>({
         'ui_lib': true,
-        'frontend': true
+        'frontend': true,
+        // Subcategories - default first one open
+        'layout': true,
+        'buttons': false,
+        'forms': false,
+        'data_display': false,
+        'feedback': false,
     });
 
     const onDragStart = (event: React.DragEvent, nodeType: string, label: string, uiType?: string, itemId?: string) => {
@@ -190,17 +196,29 @@ const Sidebar = ({ nodeCounts = {} }: SidebarProps) => {
                                         </div>
                                     )}
 
-                                    {/* Nested SubGroups (UI Components) */}
+                                    {/* Nested SubGroups (UI Components) - Collapsible */}
                                     {category.subGroups && category.subGroups.map(sub => {
                                         // @ts-ignore
                                         const subTitle = t.uiComponents[sub.labelKey];
+                                        const isSubExpanded = expanded[sub.id] !== false; // Default to collapsed for subgroups
 
                                         return (
-                                            <div key={sub.id} className="ml-1 pl-2 border-l-2 border-slate-200">
-                                                <h4 className="text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wider">{subTitle}</h4>
-                                                <div className="grid grid-cols-1 gap-2">
-                                                    {sub.items.map(item => renderItem(item, 'border-slate-100 bg-white'))}
-                                                </div>
+                                            <div key={sub.id} className="ml-1 border-l-2 border-slate-200">
+                                                {/* Subcategory Header - Clickable */}
+                                                <button
+                                                    onClick={() => toggleExpand(sub.id)}
+                                                    className="w-full flex items-center justify-between pl-2 pr-1 py-1.5 text-left hover:bg-slate-100 transition-colors rounded-r"
+                                                >
+                                                    <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{subTitle}</span>
+                                                    {isSubExpanded ? <ChevronDown size={14} className="text-slate-400" /> : <ChevronRight size={14} className="text-slate-400" />}
+                                                </button>
+
+                                                {/* Subcategory Items */}
+                                                {isSubExpanded && (
+                                                    <div className="grid grid-cols-1 gap-2 pl-2 pb-2">
+                                                        {sub.items.map(item => renderItem(item, 'border-slate-100 bg-white'))}
+                                                    </div>
+                                                )}
                                             </div>
                                         );
                                     })}
