@@ -93,7 +93,7 @@ const Sidebar = ({ nodeCounts = {} }: SidebarProps) => {
                         </div>
 
                         {/* Tooltip Content - precisely next to the icon */}
-                        <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-[100] opacity-0 group-hover/tip:opacity-100 pointer-events-none transition-opacity duration-200">
+                        <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-[9999] opacity-0 group-hover/tip:opacity-100 pointer-events-none transition-opacity duration-200">
                             <div className="bg-slate-800 text-white text-xs px-3 py-2 rounded-lg shadow-xl w-[220px] whitespace-normal border border-slate-700 relative">
                                 {/* Small Arrow */}
                                 <div className="absolute right-full top-1/2 -translate-y-1/2 border-8 border-transparent border-r-slate-800" />
@@ -123,7 +123,7 @@ const Sidebar = ({ nodeCounts = {} }: SidebarProps) => {
             return (
                 <div key={item.id} className="relative group/tip">
                     {content}
-                    <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-[100] opacity-0 group-hover/tip:opacity-100 pointer-events-none transition-opacity duration-200">
+                    <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-[9999] opacity-0 group-hover/tip:opacity-100 pointer-events-none transition-opacity duration-200">
                         {/* Tooltip Content */}
                         <div className="bg-slate-800 text-white text-xs px-3 py-2 rounded-lg shadow-xl w-[220px] whitespace-normal border border-slate-700 relative">
                             {/* Small Arrow */}

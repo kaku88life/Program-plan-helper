@@ -615,7 +615,7 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
                 <NodeResizer minWidth={24} minHeight={24} isVisible={selected} keepAspectRatio />
                 <div className="group relative w-full h-full" onDoubleClick={() => setIsEditing(true)}>
                     <DeleteBtn />
-                    <div className={`w-full h-full min-w-[24px] min-h-[24px] rounded-full flex items-center justify-center text-xs font-bold text-white shadow-lg ${activeColor.bg.replace('50', '700')} ${selected ? 'ring-2 ring-primary ring-offset-2' : 'ring-2 ring-white'}`}>
+                    <div className={`w-full h-full min-w-[24px] min-h-[24px] rounded-full flex items-center justify-center text-xs font-bold text-white shadow-lg bg-blue-700 ${selected ? 'ring-2 ring-primary ring-offset-2' : 'ring-2 ring-white'}`}>
                         {label.length > 2 ? '1' : label || '1'}
                     </div>
                     <QuadHandles />
