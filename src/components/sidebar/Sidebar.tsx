@@ -108,11 +108,27 @@ const Sidebar = ({ nodeCounts = {} }: SidebarProps) => {
         // Wrap with simple tooltip for UI items
         if (uiDescription) {
             return (
-                <div key={item.id} className="relative group/item">
-                    <div className="peer">{content}</div>
-                    <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 z-50 opacity-0 peer-hover:opacity-100 pointer-events-none transition-opacity duration-200">
-                        <div className="bg-slate-800 text-white text-xs px-3 py-2 rounded-lg shadow-lg max-w-[200px] whitespace-normal">
-                            {uiDescription}
+                <div key={item.id} className="relative group/tip">
+                    {content}
+                    <div className="fixed z-[9999] opacity-0 group-hover/tip:opacity-100 pointer-events-none transition-opacity duration-200"
+                        style={{
+                            left: '280px',
+                            top: 'var(--tooltip-top, 50%)',
+                        }}
+                    >
+                        <div
+                            className="bg-slate-800 text-white text-xs px-3 py-2 rounded-lg shadow-xl max-w-[220px] whitespace-normal border border-slate-700"
+                            ref={(el) => {
+                                if (el) {
+                                    const rect = el.parentElement?.parentElement?.getBoundingClientRect();
+                                    if (rect) {
+                                        el.parentElement!.style.setProperty('--tooltip-top', `${rect.top + rect.height / 2 - 20}px`);
+                                    }
+                                }
+                            }}
+                        >
+                            <div className="font-medium text-slate-100 mb-1">{label}</div>
+                            <div className="text-slate-300 leading-relaxed">{uiDescription}</div>
                         </div>
                     </div>
                 </div>
