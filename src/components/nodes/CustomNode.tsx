@@ -37,6 +37,10 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
     // Derived Color Styles
     const activeColor = COLORS.find(c => c.name === colorName) || COLORS[0];
 
+    // Custom dimensions from PropertiesPanel
+    const nodeWidth = (data.nodeWidth as number) || null;
+    const nodeHeight = (data.nodeHeight as number) || null;
+
     useEffect(() => {
         setLabel((data.label as string) || 'Node');
         setDescription((data.description as string) || '');
@@ -77,6 +81,24 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
         e.stopPropagation();
         deleteElements({ nodes: [{ id }] });
     }, [id, deleteElements]);
+
+    // Utility to update node data in real-time (for sliders, etc)
+    const updateNodeData = useCallback((newData: Record<string, unknown>) => {
+        setNodes((nds) =>
+            nds.map((node) => {
+                if (node.id === id) {
+                    return {
+                        ...node,
+                        data: {
+                            ...node.data,
+                            ...newData,
+                        },
+                    };
+                }
+                return node;
+            })
+        );
+    }, [id, setNodes]);
 
     // --- Renderers ---
 
@@ -555,15 +577,91 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
         );
     }
 
-    // 11. Divider
+    // 11. Divider - Enhanced with size controls
     if (toolboxId === 'divider') {
+        const dividerWidth = (data.dividerWidth as number) || 200;
+        const dividerHeight = (data.dividerHeight as number) || 4;
+        const dividerStyle = (data.dividerStyle as string) || 'solid'; // solid, dashed, dotted
+
         return (
             <>
-                <NodeResizer minWidth={100} minHeight={20} isVisible={selected} />
-                <div className="group relative w-full h-full min-w-[100px] flex items-center" onDoubleClick={() => setIsEditing(true)}>
+                <NodeResizer minWidth={50} minHeight={20} isVisible={selected} />
+                <div
+                    className="group relative flex items-center justify-center p-2 cursor-move"
+                    style={{ minWidth: dividerWidth + 20, minHeight: Math.max(dividerHeight + 16, 24) }}
+                    onDoubleClick={() => setIsEditing(true)}
+                >
                     <DeleteBtn />
-                    <div className={`w-full border-t-2 ${activeColor.border.replace('200', '300')}`} />
+                    {/* The actual divider line */}
+                    <div
+                        className={`${activeColor.bg.replace('50', '400')}`}
+                        style={{
+                            width: dividerWidth,
+                            height: dividerHeight,
+                            borderRadius: dividerHeight / 2,
+                            borderStyle: dividerStyle !== 'solid' ? dividerStyle : undefined,
+                            borderWidth: dividerStyle !== 'solid' ? dividerHeight : undefined,
+                            borderColor: dividerStyle !== 'solid' ? activeColor.bg.replace('50', '400').replace('bg-', '') : undefined,
+                            backgroundColor: dividerStyle === 'solid' ? undefined : 'transparent'
+                        }}
+                    />
                     <QuadHandles />
+
+                    {/* Edit Modal */}
+                    {isEditing && (
+                        <div className="absolute top-full left-0 mt-2 bg-white rounded-lg shadow-xl border border-slate-200 p-3 z-50 min-w-[200px]" onClick={e => e.stopPropagation()}>
+                            <div className="space-y-3">
+                                <div>
+                                    <label className="text-xs font-medium text-slate-600">寬度</label>
+                                    <div className="flex items-center gap-2">
+                                        <input
+                                            type="range"
+                                            min="50"
+                                            max="500"
+                                            value={dividerWidth}
+                                            onChange={(e) => updateNodeData({ dividerWidth: parseInt(e.target.value) })}
+                                            className="flex-1"
+                                        />
+                                        <span className="text-xs text-slate-500 w-12">{dividerWidth}px</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className="text-xs font-medium text-slate-600">粗細</label>
+                                    <div className="flex items-center gap-2">
+                                        <input
+                                            type="range"
+                                            min="1"
+                                            max="20"
+                                            value={dividerHeight}
+                                            onChange={(e) => updateNodeData({ dividerHeight: parseInt(e.target.value) })}
+                                            className="flex-1"
+                                        />
+                                        <span className="text-xs text-slate-500 w-12">{dividerHeight}px</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label className="text-xs font-medium text-slate-600 mb-1 block">樣式</label>
+                                    <div className="flex gap-1">
+                                        {['solid', 'dashed', 'dotted'].map(style => (
+                                            <button
+                                                key={style}
+                                                onClick={() => updateNodeData({ dividerStyle: style })}
+                                                className={`flex-1 py-1 text-xs rounded border ${dividerStyle === style ? 'bg-primary text-white border-primary' : 'bg-white text-slate-600 border-slate-200'}`}
+                                            >
+                                                {style === 'solid' ? '實線' : style === 'dashed' ? '虛線' : '點線'}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                                <button
+                                    onClick={() => setIsEditing(false)}
+                                    className="w-full py-1.5 bg-primary text-white text-xs font-medium rounded-lg hover:bg-primary/90"
+                                >
+                                    完成
+                                </button>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </>
         );
@@ -694,6 +792,10 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
                 group relative w-full h-full min-w-[200px] min-h-[150px] bg-white rounded-lg shadow-sm border transition-all duration-300
                 ${selected ? 'ring-2 ring-primary border-primary shadow-xl' : `border-slate-200 hover:shadow-md ${activeColor.ring}`}
             `}
+                style={{
+                    width: nodeWidth ? `${nodeWidth}px` : undefined,
+                    height: nodeHeight ? `${nodeHeight}px` : undefined
+                }}
                 onDoubleClick={(e) => { e.stopPropagation(); setIsEditing(true); }}
             >
                 <DeleteBtn />

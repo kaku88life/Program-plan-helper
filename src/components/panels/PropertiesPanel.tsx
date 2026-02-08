@@ -204,6 +204,77 @@ export const PropertiesPanel: React.FC<PropertiesPanelProps> = ({
                     </div>
                 </div>
 
+                {/* Dimension Controls - Width & Height */}
+                <div className="space-y-3 pt-2 border-t border-slate-100">
+                    <label className="text-sm font-medium text-slate-700">
+                        {language === 'zh' ? '精確尺寸' : 'Dimensions'}
+                    </label>
+
+                    {/* Width Slider */}
+                    <div className="space-y-1">
+                        <div className="flex items-center justify-between">
+                            <span className="text-xs text-slate-500">{language === 'zh' ? '寬度' : 'Width'}</span>
+                            <span className="text-xs font-medium text-slate-600">
+                                {(selectedNode.data.nodeWidth as number) || 180}px
+                            </span>
+                        </div>
+                        <input
+                            type="range"
+                            min="80"
+                            max="500"
+                            value={(selectedNode.data.nodeWidth as number) || 180}
+                            onChange={(e) => onUpdateNode(selectedNode.id, { nodeWidth: parseInt(e.target.value) })}
+                            className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-primary"
+                        />
+                    </div>
+
+                    {/* Height Slider */}
+                    <div className="space-y-1">
+                        <div className="flex items-center justify-between">
+                            <span className="text-xs text-slate-500">{language === 'zh' ? '高度' : 'Height'}</span>
+                            <span className="text-xs font-medium text-slate-600">
+                                {(selectedNode.data.nodeHeight as number) || 60}px
+                            </span>
+                        </div>
+                        <input
+                            type="range"
+                            min="40"
+                            max="400"
+                            value={(selectedNode.data.nodeHeight as number) || 60}
+                            onChange={(e) => onUpdateNode(selectedNode.id, { nodeHeight: parseInt(e.target.value) })}
+                            className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-primary"
+                        />
+                    </div>
+
+                    {/* Quick Size Buttons */}
+                    <div className="flex gap-1">
+                        <button
+                            onClick={() => onUpdateNode(selectedNode.id, { nodeWidth: 120, nodeHeight: 50 })}
+                            className="flex-1 py-1 text-xs rounded border border-slate-200 text-slate-600 hover:border-primary hover:text-primary"
+                        >
+                            {language === 'zh' ? '小' : 'S'}
+                        </button>
+                        <button
+                            onClick={() => onUpdateNode(selectedNode.id, { nodeWidth: 180, nodeHeight: 70 })}
+                            className="flex-1 py-1 text-xs rounded border border-slate-200 text-slate-600 hover:border-primary hover:text-primary"
+                        >
+                            {language === 'zh' ? '中' : 'M'}
+                        </button>
+                        <button
+                            onClick={() => onUpdateNode(selectedNode.id, { nodeWidth: 260, nodeHeight: 100 })}
+                            className="flex-1 py-1 text-xs rounded border border-slate-200 text-slate-600 hover:border-primary hover:text-primary"
+                        >
+                            {language === 'zh' ? '大' : 'L'}
+                        </button>
+                        <button
+                            onClick={() => onUpdateNode(selectedNode.id, { nodeWidth: 360, nodeHeight: 140 })}
+                            className="flex-1 py-1 text-xs rounded border border-slate-200 text-slate-600 hover:border-primary hover:text-primary"
+                        >
+                            {language === 'zh' ? '特大' : 'XL'}
+                        </button>
+                    </div>
+                </div>
+
                 {/* Style Presets */}
                 <div className="space-y-2">
                     <label className="text-sm font-medium text-slate-700">
@@ -215,8 +286,8 @@ export const PropertiesPanel: React.FC<PropertiesPanelProps> = ({
                                 key={preset.id}
                                 onClick={() => handlePresetChange(preset)}
                                 className={`p-2 text-xs font-medium rounded-lg border transition-all flex flex-col items-center gap-1 ${(selectedNode.data.stylePreset as string) === preset.id
-                                        ? 'bg-primary/10 border-primary text-primary'
-                                        : 'bg-white text-slate-600 border-slate-200 hover:border-primary hover:text-primary'
+                                    ? 'bg-primary/10 border-primary text-primary'
+                                    : 'bg-white text-slate-600 border-slate-200 hover:border-primary hover:text-primary'
                                     }`}
                             >
                                 <span className="text-base">{preset.icon}</span>
