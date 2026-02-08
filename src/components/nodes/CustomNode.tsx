@@ -294,7 +294,7 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
         return (
             <>
                 <NodeResizer minWidth={300} minHeight={50} isVisible={selected} />
-                <div className="group relative w-full h-full min-w-[300px]" onDoubleClick={() => setIsEditing(true)}>
+                <div className="group relative w-full h-full min-w-[300px]" style={{ width: nodeWidth ? `${nodeWidth}px` : undefined, height: nodeHeight ? `${nodeHeight}px` : undefined }} onDoubleClick={() => setIsEditing(true)}>
                     <DeleteBtn />
                     <div className={`w-full h-full flex items-center justify-between px-4 py-2 bg-white border border-slate-200 shadow-sm ${selected ? 'ring-2 ring-primary border-primary' : ''} ${activeColor.border}`}>
                         <div className="flex items-center gap-4">
@@ -320,7 +320,7 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
         return (
             <>
                 <NodeResizer minWidth={180} minHeight={300} isVisible={selected} />
-                <div className="group relative w-full h-full min-w-[180px]" onDoubleClick={() => setIsEditing(true)}>
+                <div className="group relative w-full h-full min-w-[180px]" style={{ width: nodeWidth ? `${nodeWidth}px` : undefined, height: nodeHeight ? `${nodeHeight}px` : undefined }} onDoubleClick={() => setIsEditing(true)}>
                     <DeleteBtn />
                     <div className={`w-full h-full flex flex-col bg-white border border-slate-200 shadow-sm ${selected ? 'ring-2 ring-primary border-primary' : ''} ${activeColor.border}`}>
                         <div className={`h-12 w-full border-b border-slate-100 flex items-center px-4 font-bold text-slate-700 ${activeColor.text}`}>
@@ -345,7 +345,7 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
         return (
             <>
                 <NodeResizer minWidth={300} minHeight={200} isVisible={selected} />
-                <div className="group relative w-full h-full min-w-[300px]" onDoubleClick={() => setIsEditing(true)}>
+                <div className="group relative w-full h-full min-w-[300px]" style={{ width: nodeWidth ? `${nodeWidth}px` : undefined, height: nodeHeight ? `${nodeHeight}px` : undefined }} onDoubleClick={() => setIsEditing(true)}>
                     <DeleteBtn />
                     <div className={`w-full h-full bg-white border border-slate-200 rounded-lg shadow-sm overflow-hidden flex flex-col ${selected ? 'ring-2 ring-primary border-primary' : ''}`}>
                         {/* Header */}
@@ -382,7 +382,7 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
         return (
             <>
                 <NodeResizer minWidth={300} minHeight={200} isVisible={selected} />
-                <div className="group relative w-full h-full min-w-[300px]" onDoubleClick={() => setIsEditing(true)}>
+                <div className="group relative w-full h-full min-w-[300px]" style={{ width: nodeWidth ? `${nodeWidth}px` : undefined, height: nodeHeight ? `${nodeHeight}px` : undefined }} onDoubleClick={() => setIsEditing(true)}>
                     <DeleteBtn />
                     {/* Backdrop representation */}
                     <div className="absolute inset-0 bg-slate-900/10 rounded-lg -z-10 scale-105 blur-sm" />
@@ -414,7 +414,7 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
         return (
             <>
                 <NodeResizer minWidth={250} minHeight={100} isVisible={selected} />
-                <div className="group relative w-full h-full min-w-[250px]" onDoubleClick={() => setIsEditing(true)}>
+                <div className="group relative w-full h-full min-w-[250px]" style={{ width: nodeWidth ? `${nodeWidth}px` : undefined, height: nodeHeight ? `${nodeHeight}px` : undefined }} onDoubleClick={() => setIsEditing(true)}>
                     <DeleteBtn />
                     <div className={`w-full h-full bg-white border border-slate-200 rounded-lg shadow-sm flex flex-col overflow-hidden ${selected ? 'ring-2 ring-primary border-primary' : ''}`}>
                         <div className="flex border-b border-slate-200 bg-slate-50">
@@ -439,7 +439,7 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
         return (
             <>
                 <NodeResizer minWidth={120} minHeight={40} isVisible={selected} />
-                <div className="group relative w-full h-full" onDoubleClick={() => setIsEditing(true)}>
+                <div className="group relative w-full h-full" style={{ width: nodeWidth ? `${nodeWidth}px` : undefined, height: nodeHeight ? `${nodeHeight}px` : undefined }} onDoubleClick={() => setIsEditing(true)}>
                     <DeleteBtn />
                     <div className={`w-full h-full bg-white border border-slate-200 rounded px-3 flex items-center gap-3 shadow-sm ${selected ? 'ring-2 ring-primary border-primary' : ''}`}>
 
@@ -481,7 +481,7 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
         return (
             <>
                 <NodeResizer minWidth={150} minHeight={35} isVisible={selected} />
-                <div className="group relative w-full h-full min-w-[150px]" onDoubleClick={() => setIsEditing(true)}>
+                <div className="group relative w-full h-full min-w-[150px]" style={{ width: nodeWidth ? `${nodeWidth}px` : undefined, height: nodeHeight ? `${nodeHeight}px` : undefined }} onDoubleClick={() => setIsEditing(true)}>
                     <DeleteBtn />
                     <div className={`
                         flex items-center gap-2 px-3 py-2 bg-white border rounded-md shadow-sm w-full h-full
@@ -503,7 +503,7 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
         return (
             <>
                 <NodeResizer minWidth={50} minHeight={50} isVisible={selected} keepAspectRatio />
-                <div className="group relative w-full h-full min-w-[50px] min-h-[50px]" onDoubleClick={() => setIsEditing(true)}>
+                <div className="group relative w-full h-full min-w-[50px] min-h-[50px]" style={{ width: nodeWidth ? `${nodeWidth}px` : undefined, height: nodeHeight ? `${nodeHeight}px` : undefined }} onDoubleClick={() => setIsEditing(true)}>
                     <DeleteBtn />
                     <div className={`
                         w-full h-full bg-slate-50 border rounded-lg flex flex-col items-center justify-center text-slate-400 overflow-hidden
@@ -562,7 +562,7 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
         return (
             <>
                 <NodeResizer minWidth={200} minHeight={30} isVisible={selected} />
-                <div className="group relative w-full h-full min-w-[200px]" onDoubleClick={() => setIsEditing(true)}>
+                <div className="group relative w-full h-full min-w-[200px]" style={{ width: nodeWidth ? `${nodeWidth}px` : undefined, height: nodeHeight ? `${nodeHeight}px` : undefined }} onDoubleClick={() => setIsEditing(true)}>
                     <DeleteBtn />
                     <div className={`w-full h-full bg-white border border-slate-200 rounded px-3 py-2 flex items-center gap-2 shadow-sm ${selected ? 'ring-2 ring-primary border-primary' : ''}`}>
                         <span className={`text-xs ${activeColor.text} font-medium`}>Home</span>
@@ -672,7 +672,7 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
         return (
             <>
                 <NodeResizer minWidth={150} minHeight={120} isVisible={selected} />
-                <div className="group relative w-full h-full min-w-[150px]" onDoubleClick={() => setIsEditing(true)}>
+                <div className="group relative w-full h-full min-w-[150px]" style={{ width: nodeWidth ? `${nodeWidth}px` : undefined, height: nodeHeight ? `${nodeHeight}px` : undefined }} onDoubleClick={() => setIsEditing(true)}>
                     <DeleteBtn />
                     <div className={`w-full h-full bg-white border border-slate-200 rounded-lg p-3 shadow-sm ${selected ? 'ring-2 ring-primary border-primary' : ''}`}>
                         <div className="space-y-2">
@@ -727,7 +727,7 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
         return (
             <>
                 <NodeResizer minWidth={250} minHeight={60} isVisible={selected} />
-                <div className="group relative w-full h-full min-w-[250px]" onDoubleClick={() => setIsEditing(true)}>
+                <div className="group relative w-full h-full min-w-[250px]" style={{ width: nodeWidth ? `${nodeWidth}px` : undefined, height: nodeHeight ? `${nodeHeight}px` : undefined }} onDoubleClick={() => setIsEditing(true)}>
                     <DeleteBtn />
                     <div className={`w-full h-full ${activeColor.bg} border ${activeColor.border} rounded-lg p-3 flex items-start gap-3 ${selected ? 'ring-2 ring-primary' : ''}`}>
                         <div className={`w-5 h-5 rounded-full ${activeColor.bg.replace('50', '100')} flex items-center justify-center flex-shrink-0 mt-0.5`}>
@@ -749,7 +749,7 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
         return (
             <>
                 <NodeResizer minWidth={250} minHeight={50} isVisible={selected} />
-                <div className="group relative w-full h-full min-w-[250px]" onDoubleClick={() => setIsEditing(true)}>
+                <div className="group relative w-full h-full min-w-[250px]" style={{ width: nodeWidth ? `${nodeWidth}px` : undefined, height: nodeHeight ? `${nodeHeight}px` : undefined }} onDoubleClick={() => setIsEditing(true)}>
                     <DeleteBtn />
                     <div className={`w-full h-full bg-slate-800 text-white rounded-lg px-4 py-3 flex items-center gap-3 shadow-lg ${selected ? 'ring-2 ring-primary ring-offset-2' : ''}`}>
                         <div className={`w-5 h-5 rounded-full ${activeColor.bg.replace('50', '500')} flex items-center justify-center flex-shrink-0`}>
@@ -769,7 +769,7 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
         return (
             <>
                 <NodeResizer minWidth={150} minHeight={35} isVisible={selected} />
-                <div className="group relative w-full h-full min-w-[150px]" onDoubleClick={() => setIsEditing(true)}>
+                <div className="group relative w-full h-full min-w-[150px]" style={{ width: nodeWidth ? `${nodeWidth}px` : undefined, height: nodeHeight ? `${nodeHeight}px` : undefined }} onDoubleClick={() => setIsEditing(true)}>
                     <DeleteBtn />
                     <div className={`w-full h-full bg-white border rounded-md shadow-sm flex items-center justify-between px-3 py-2 ${selected ? 'border-primary ring-1 ring-primary' : `${activeColor.border}`}`}>
                         <span className="text-sm text-slate-500 truncate">{label || 'Select...'}</span>
