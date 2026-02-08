@@ -58,16 +58,50 @@ export const useKeyboardShortcuts = ({
         }
     }, [nodes, edges]);
 
-    // Initialize history with current state
+    // Track if we're currently undoing/redoing to avoid pushing during those operations
+    const isUndoRedoRef = useRef(false);
+    const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const lastNodesLengthRef = useRef(nodes.length);
+    const lastEdgesLengthRef = useRef(edges.length);
+
+    // Track changes to nodes/edges and push to history with debounce
     useEffect(() => {
-        if (historyRef.current.length === 0 && (nodes.length > 0 || edges.length > 0)) {
-            pushToHistory();
+        // Skip if we're in the middle of undo/redo
+        if (isUndoRedoRef.current) {
+            isUndoRedoRef.current = false;
+            return;
         }
+
+        // Detect meaningful changes (not just position updates during drag)
+        const nodesChanged = nodes.length !== lastNodesLengthRef.current;
+        const edgesChanged = edges.length !== lastEdgesLengthRef.current;
+
+        if (nodesChanged || edgesChanged) {
+            // Immediate push for add/delete operations
+            lastNodesLengthRef.current = nodes.length;
+            lastEdgesLengthRef.current = edges.length;
+            pushToHistory();
+        } else if (nodes.length > 0 || edges.length > 0) {
+            // Debounced push for property changes
+            if (debounceTimerRef.current) {
+                clearTimeout(debounceTimerRef.current);
+            }
+            debounceTimerRef.current = setTimeout(() => {
+                pushToHistory();
+            }, 500); // 500ms debounce for property changes
+        }
+
+        return () => {
+            if (debounceTimerRef.current) {
+                clearTimeout(debounceTimerRef.current);
+            }
+        };
     }, [nodes, edges, pushToHistory]);
 
     // Undo
     const undo = useCallback(() => {
         if (historyIndexRef.current > 0) {
+            isUndoRedoRef.current = true;
             historyIndexRef.current--;
             const state = historyRef.current[historyIndexRef.current];
             setNodes(state.nodes);
@@ -79,6 +113,7 @@ export const useKeyboardShortcuts = ({
     // Redo
     const redo = useCallback(() => {
         if (historyIndexRef.current < historyRef.current.length - 1) {
+            isUndoRedoRef.current = true;
             historyIndexRef.current++;
             const state = historyRef.current[historyIndexRef.current];
             setNodes(state.nodes);
