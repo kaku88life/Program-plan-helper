@@ -18,8 +18,13 @@ import ProjectWizard from './components/wizard/ProjectWizard';
 import { CodingEncyclopedia } from './components/knowledge/CodingEncyclopedia'; // Import Encyclopedia
 import type { ProjectTemplate } from './data/templates';
 import { LanguageProvider, useLanguage } from './context/LanguageContext';
-import { Languages, GraduationCap, Layers } from 'lucide-react';
+import { Languages, GraduationCap, Layers, Download, Save, Upload } from 'lucide-react';
 import { LayerControl } from './components/ui/LayerControl';
+import { exportToPng } from './utils/exportUtils';
+import { useLocalStorage } from './hooks/useLocalStorage';
+import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
+import { useOnboarding } from './hooks/useOnboarding';
+import { PropertiesPanel } from './components/panels/PropertiesPanel';
 
 const initialNodes: Node[] = [];
 const initialEdges: Edge[] = [];
@@ -35,7 +40,35 @@ function FlowContent() {
   const [showWizard, setShowWizard] = useState(true);
   const [showEncyclopedia, setShowEncyclopedia] = useState(false); // State for Encyclopaedia
   const [showLayerControl, setShowLayerControl] = useState(false); // State for Layer Control
+  const [isExporting, setIsExporting] = useState(false); // Export loading state
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [showPropertiesPanel, setShowPropertiesPanel] = useState(false);
+  const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
   const { language, setLanguage } = useLanguage();
+
+  // Local storage auto-save
+  const { exportToFile, importFromFile } = useLocalStorage(nodes, edges, setNodes, setEdges);
+
+  // Keyboard shortcuts
+  useKeyboardShortcuts({
+    nodes,
+    edges,
+    setNodes,
+    setEdges,
+    selectedNodeId,
+    onSave: exportToFile,
+    onExport: async () => {
+      setIsExporting(true);
+      try {
+        await exportToPng('.react-flow', 'program-plan');
+      } finally {
+        setIsExporting(false);
+      }
+    }
+  });
+
+  // Onboarding for first-time users
+  useOnboarding();
 
   // Calculate node counts for Toolbox
   const nodeCounts = useMemo(() => {
@@ -118,6 +151,40 @@ function FlowContent() {
     }, 100);
   }, [setNodes, setEdges, fitView]);
 
+  // Get selected node
+  const selectedNode = useMemo(() => {
+    return nodes.find(n => n.id === selectedNodeId) || null;
+  }, [nodes, selectedNodeId]);
+
+  // Handle node selection change
+  const handleNodesChange = useCallback((changes: Parameters<typeof onNodesChange>[0]) => {
+    onNodesChange(changes);
+    // Track selection
+    for (const change of changes) {
+      if (change.type === 'select') {
+        if (change.selected) {
+          setSelectedNodeId(change.id);
+          setShowPropertiesPanel(true);
+        }
+      }
+    }
+  }, [onNodesChange]);
+
+  // Update node data
+  const handleUpdateNode = useCallback((nodeId: string, data: Partial<Node['data']>) => {
+    setNodes((nds) =>
+      nds.map((node) =>
+        node.id === nodeId ? { ...node, data: { ...node.data, ...data } } : node
+      )
+    );
+  }, [setNodes]);
+
+  // Delete node
+  const handleDeleteNode = useCallback((nodeId: string) => {
+    setNodes((nds) => nds.filter((node) => node.id !== nodeId));
+    setSelectedNodeId(null);
+  }, [setNodes]);
+
   return (
     <div className="flex w-screen h-screen overflow-hidden bg-slate-50">
       <Sidebar nodeCounts={nodeCounts} />
@@ -126,6 +193,61 @@ function FlowContent() {
 
         {/* Top Right Controls */}
         <div className="absolute top-4 right-4 z-50 flex items-center gap-2">
+          {/* Export Button */}
+          <button
+            onClick={async () => {
+              setIsExporting(true);
+              try {
+                await exportToPng('.react-flow', 'program-plan');
+              } catch (error) {
+                console.error('Export failed:', error);
+              } finally {
+                setIsExporting(false);
+              }
+            }}
+            disabled={isExporting}
+            className="flex items-center gap-2 px-3 py-1.5 bg-white shadow-md rounded-full border border-slate-200 text-sm font-medium text-emerald-600 hover:text-emerald-700 hover:border-emerald-300 transition-all hover:bg-emerald-50 disabled:opacity-50"
+          >
+            <Download size={16} />
+            {isExporting ? (language === 'zh' ? '匯出中...' : 'Exporting...') : (language === 'zh' ? '匯出圖片' : 'PNG')}
+          </button>
+
+          {/* Save JSON Button */}
+          <button
+            onClick={exportToFile}
+            className="flex items-center gap-2 px-3 py-1.5 bg-white shadow-md rounded-full border border-slate-200 text-sm font-medium text-blue-600 hover:text-blue-700 hover:border-blue-300 transition-all hover:bg-blue-50"
+          >
+            <Save size={16} />
+            {language === 'zh' ? '儲存' : 'Save'}
+          </button>
+
+          {/* Load JSON Button */}
+          <input
+            type="file"
+            ref={fileInputRef}
+            accept=".json"
+            className="hidden"
+            onChange={async (e) => {
+              const file = e.target.files?.[0];
+              if (file) {
+                try {
+                  await importFromFile(file);
+                } catch (error) {
+                  console.error('Import failed:', error);
+                  alert(language === 'zh' ? '匯入失敗，請檢查檔案格式' : 'Import failed, please check file format');
+                }
+              }
+              e.target.value = ''; // Reset input
+            }}
+          />
+          <button
+            onClick={() => fileInputRef.current?.click()}
+            className="flex items-center gap-2 px-3 py-1.5 bg-white shadow-md rounded-full border border-slate-200 text-sm font-medium text-purple-600 hover:text-purple-700 hover:border-purple-300 transition-all hover:bg-purple-50"
+          >
+            <Upload size={16} />
+            {language === 'zh' ? '載入' : 'Load'}
+          </button>
+
           {/* Encyclopedia Button */}
           <button
             onClick={() => setShowEncyclopedia(true)}
@@ -160,7 +282,7 @@ function FlowContent() {
         <ReactFlow
           nodes={nodes}
           edges={edges}
-          onNodesChange={onNodesChange}
+          onNodesChange={handleNodesChange}
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}
           nodeTypes={nodeTypes}
@@ -168,6 +290,8 @@ function FlowContent() {
           onDragOver={onDragOver}
           onDrop={onDrop}
           deleteKeyCode={['Delete', 'Backspace']}
+          snapToGrid={true}
+          snapGrid={[16, 16]}
           fitView
           className="bg-transparent"
         >
@@ -188,6 +312,19 @@ function FlowContent() {
         <ProjectWizard
           onSelectTemplate={handleSelectTemplate}
           onClose={() => setShowWizard(false)}
+        />
+      )}
+
+      {/* Properties Panel */}
+      {showPropertiesPanel && (
+        <PropertiesPanel
+          selectedNode={selectedNode}
+          onUpdateNode={handleUpdateNode}
+          onDeleteNode={handleDeleteNode}
+          onClose={() => {
+            setShowPropertiesPanel(false);
+            setSelectedNodeId(null);
+          }}
         />
       )}
 

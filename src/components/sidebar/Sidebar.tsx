@@ -152,7 +152,7 @@ const Sidebar = ({ nodeCounts = {} }: SidebarProps) => {
     };
 
     return (
-        <aside className="w-64 bg-white border-r border-slate-200 h-full flex flex-col shadow-xl z-10 shrink-0">
+        <aside className="sidebar-toolbox w-64 bg-white border-r border-slate-200 h-full flex flex-col shadow-xl z-10 shrink-0">
             <div className="p-4 border-b border-slate-100 bg-slate-50">
                 <h2 className="font-bold text-slate-800 flex items-center gap-2">
                     <Monitor size={18} />
