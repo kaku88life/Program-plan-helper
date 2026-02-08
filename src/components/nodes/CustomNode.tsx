@@ -34,8 +34,8 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
     // Identify Node Type
     const uiType = data.uiType as string | undefined;
 
-    // Derived Color Styles
-    const activeColor = COLORS.find(c => c.name === colorName) || COLORS[0];
+    // Derived Color Styles - Read directly from data to ensure sync with PropertiesPanel
+    const activeColor = COLORS.find(c => c.name === (data.color as string) || colorName) || COLORS[0];
 
     // Custom dimensions from PropertiesPanel
     const nodeWidth = (data.nodeWidth as number) || null;
