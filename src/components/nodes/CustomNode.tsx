@@ -4,16 +4,19 @@ import type { NodeProps } from '@xyflow/react';
 import { Edit3, X, Search, Image as ImageIcon, Check, ChevronDown, Type, Palette, Layers, FileText } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 
-// Define Color Options
+// Define Color Options - Must match PropertiesPanel COLOR_OPTIONS ids
 const COLORS = [
     { name: 'slate', bg: 'bg-slate-100', border: 'border-slate-300', text: 'text-slate-700', ring: 'ring-slate-400' },
-    { name: 'red', bg: 'bg-red-50', border: 'border-red-200', text: 'text-red-700', ring: 'ring-red-400' },
-    { name: 'orange', bg: 'bg-orange-50', border: 'border-orange-200', text: 'text-orange-700', ring: 'ring-orange-400' },
-    { name: 'amber', bg: 'bg-amber-50', border: 'border-amber-200', text: 'text-amber-700', ring: 'ring-amber-400' },
-    { name: 'green', bg: 'bg-green-50', border: 'border-green-200', text: 'text-green-700', ring: 'ring-green-400' },
     { name: 'blue', bg: 'bg-blue-50', border: 'border-blue-200', text: 'text-blue-700', ring: 'ring-blue-400' },
-    { name: 'indigo', bg: 'bg-indigo-50', border: 'border-indigo-200', text: 'text-indigo-700', ring: 'ring-indigo-400' },
+    { name: 'emerald', bg: 'bg-emerald-50', border: 'border-emerald-200', text: 'text-emerald-700', ring: 'ring-emerald-400' },
+    { name: 'green', bg: 'bg-green-50', border: 'border-green-200', text: 'text-green-700', ring: 'ring-green-400' },
+    { name: 'amber', bg: 'bg-amber-50', border: 'border-amber-200', text: 'text-amber-700', ring: 'ring-amber-400' },
+    { name: 'rose', bg: 'bg-rose-50', border: 'border-rose-200', text: 'text-rose-700', ring: 'ring-rose-400' },
+    { name: 'red', bg: 'bg-red-50', border: 'border-red-200', text: 'text-red-700', ring: 'ring-red-400' },
     { name: 'purple', bg: 'bg-purple-50', border: 'border-purple-200', text: 'text-purple-700', ring: 'ring-purple-400' },
+    { name: 'cyan', bg: 'bg-cyan-50', border: 'border-cyan-200', text: 'text-cyan-700', ring: 'ring-cyan-400' },
+    { name: 'orange', bg: 'bg-orange-50', border: 'border-orange-200', text: 'text-orange-700', ring: 'ring-orange-400' },
+    { name: 'indigo', bg: 'bg-indigo-50', border: 'border-indigo-200', text: 'text-indigo-700', ring: 'ring-indigo-400' },
     { name: 'pink', bg: 'bg-pink-50', border: 'border-pink-200', text: 'text-pink-700', ring: 'ring-pink-400' },
 ];
 
