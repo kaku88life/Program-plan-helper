@@ -38,7 +38,12 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
     const uiType = data.uiType as string | undefined;
 
     // Derived Color Styles - Read directly from data to ensure sync with PropertiesPanel
-    const activeColor = COLORS.find(c => c.name === (data.color as string) || colorName) || COLORS[0];
+    // FIX: Correct operator precedence with proper parentheses
+    const colorFromData = (data.color as string) || 'slate';
+    const activeColor = COLORS.find(c => c.name === colorFromData) || COLORS[0];
+
+    // Debug log to verify data flow (remove in production)
+    // console.log('[CustomNode] id:', id, 'data.color:', data.color, 'colorFromData:', colorFromData, 'activeColor:', activeColor?.name);
 
     // Custom dimensions from PropertiesPanel
     const nodeWidth = (data.nodeWidth as number) || null;

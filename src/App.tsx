@@ -172,11 +172,14 @@ function FlowContent() {
 
   // Update node data
   const handleUpdateNode = useCallback((nodeId: string, data: Partial<Node['data']>) => {
-    setNodes((nds) =>
-      nds.map((node) =>
+    console.log('[App] handleUpdateNode called:', nodeId, data);
+    setNodes((nds) => {
+      const updated = nds.map((node) =>
         node.id === nodeId ? { ...node, data: { ...node.data, ...data } } : node
-      )
-    );
+      );
+      console.log('[App] Node after update:', updated.find(n => n.id === nodeId)?.data);
+      return updated;
+    });
   }, [setNodes]);
 
   // Delete node
