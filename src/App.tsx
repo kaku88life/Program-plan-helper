@@ -296,6 +296,7 @@ function FlowContent() {
           onConnect={onConnect}
           nodeTypes={nodeTypes}
           edgeTypes={edgeTypes}
+          defaultEdgeOptions={{ type: 'directional' }}
           onDragOver={onDragOver}
           onDrop={onDrop}
           deleteKeyCode={['Delete', 'Backspace']}

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { X, Type, Palette, Trash2 } from 'lucide-react';
 import type { Node } from '@xyflow/react';
 import { useLanguage } from '../../context/LanguageContext';
+import { COLORS } from '../../constants/colors';
 
 interface PropertiesPanelProps {
     selectedNode: Node | null;
@@ -10,15 +11,12 @@ interface PropertiesPanelProps {
     onClose: () => void;
 }
 
-const COLOR_OPTIONS = [
-    { id: 'slate', label: '灰色', color: 'bg-slate-500' },
-    { id: 'blue', label: '藍色', color: 'bg-blue-500' },
-    { id: 'emerald', label: '綠色', color: 'bg-emerald-500' },
-    { id: 'amber', label: '橙色', color: 'bg-amber-500' },
-    { id: 'rose', label: '紅色', color: 'bg-rose-500' },
-    { id: 'purple', label: '紫色', color: 'bg-purple-500' },
-    { id: 'cyan', label: '青色', color: 'bg-cyan-500' },
-];
+// Use shared color constants
+const COLOR_OPTIONS = COLORS.map(c => ({
+    id: c.id,
+    label: c.name,
+    color: c.preview,
+}));
 
 const SIZE_OPTIONS = [
     { id: 'small', label: '小', scale: 0.8 },
@@ -173,10 +171,10 @@ export const PropertiesPanel: React.FC<PropertiesPanelProps> = ({
                             <button
                                 key={colorOpt.id}
                                 onClick={() => handleColorChange(colorOpt.id)}
-                                className={`w-8 h-8 rounded-full ${colorOpt.color} transition-all ${selectedColor === colorOpt.id
-                                    ? 'ring-2 ring-offset-2 ring-primary scale-110'
-                                    : 'hover:scale-105'
-                                    }`}
+                                className={`w - 8 h - 8 rounded - full ${colorOpt.color} transition - all ${selectedColor === colorOpt.id
+                                        ? 'ring-2 ring-offset-2 ring-primary scale-110'
+                                        : 'hover:scale-105'
+                                    } `}
                                 title={colorOpt.label}
                             />
                         ))}
@@ -193,10 +191,10 @@ export const PropertiesPanel: React.FC<PropertiesPanelProps> = ({
                             <button
                                 key={sizeOpt.id}
                                 onClick={() => handleSizeChange(sizeOpt.id)}
-                                className={`flex-1 py-2 px-3 text-sm font-medium rounded-lg border transition-all ${selectedSize === sizeOpt.id
-                                    ? 'bg-primary text-white border-primary'
-                                    : 'bg-white text-slate-600 border-slate-200 hover:border-primary hover:text-primary'
-                                    }`}
+                                className={`flex - 1 py - 2 px - 3 text - sm font - medium rounded - lg border transition - all ${selectedSize === sizeOpt.id
+                                        ? 'bg-primary text-white border-primary'
+                                        : 'bg-white text-slate-600 border-slate-200 hover:border-primary hover:text-primary'
+                                    } `}
                             >
                                 {language === 'zh' ? sizeOpt.label : sizeOpt.id}
                             </button>
@@ -285,10 +283,10 @@ export const PropertiesPanel: React.FC<PropertiesPanelProps> = ({
                             <button
                                 key={preset.id}
                                 onClick={() => handlePresetChange(preset)}
-                                className={`p-2 text-xs font-medium rounded-lg border transition-all flex flex-col items-center gap-1 ${(selectedNode.data.stylePreset as string) === preset.id
-                                    ? 'bg-primary/10 border-primary text-primary'
-                                    : 'bg-white text-slate-600 border-slate-200 hover:border-primary hover:text-primary'
-                                    }`}
+                                className={`p - 2 text - xs font - medium rounded - lg border transition - all flex flex - col items - center gap - 1 ${(selectedNode.data.stylePreset as string) === preset.id
+                                        ? 'bg-primary/10 border-primary text-primary'
+                                        : 'bg-white text-slate-600 border-slate-200 hover:border-primary hover:text-primary'
+                                    } `}
                             >
                                 <span className="text-base">{preset.icon}</span>
                                 <span>{language === 'zh' ? preset.labelZh : preset.labelEn}</span>
