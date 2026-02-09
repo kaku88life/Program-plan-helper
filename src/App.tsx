@@ -8,11 +8,12 @@ import {
   useNodesState,
   useEdgesState,
   addEdge,
+  MarkerType,
 } from '@xyflow/react';
-import type { Node, Edge, Connection, NodeTypes } from '@xyflow/react';
+import type { Node, Edge, Connection, NodeTypes, EdgeTypes } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import CustomNode from './components/nodes/CustomNode';
-import CustomEdge from './components/edges/CustomEdge'; // Import CustomEdge
+import DirectionalEdge from './components/edges/DirectionalEdge';
 import Sidebar from './components/sidebar/Sidebar';
 import ProjectWizard from './components/wizard/ProjectWizard';
 import { CodingEncyclopedia } from './components/knowledge/CodingEncyclopedia'; // Import Encyclopedia
@@ -87,12 +88,17 @@ function FlowContent() {
     custom: CustomNode,
   }), []);
 
-  const edgeTypes = useMemo(() => ({
-    custom: CustomEdge,
+  const edgeTypes = useMemo<EdgeTypes>(() => ({
+    directional: DirectionalEdge,
   }), []);
 
   const onConnect = useCallback(
-    (params: Connection) => setEdges((eds) => addEdge({ ...params, type: 'custom' }, eds)),
+    (params: Connection) => setEdges((eds) => addEdge({
+      ...params,
+      type: 'directional',
+      markerEnd: { type: MarkerType.ArrowClosed, color: '#64748b' },
+      data: { arrowType: 'forward' },
+    }, eds)),
     [setEdges],
   );
 
