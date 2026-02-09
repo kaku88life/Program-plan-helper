@@ -248,7 +248,8 @@ export default function DirectionalEdge({
                 fill="none"
                 strokeWidth={20}
                 stroke="transparent"
-                style={{ cursor: 'pointer' }}
+                className="react-flow__edge-interaction"
+                style={{ cursor: 'pointer', pointerEvents: 'stroke' }}
                 onClick={onEdgeClick}
             />
 
