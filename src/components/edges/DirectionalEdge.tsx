@@ -105,6 +105,8 @@ export default function DirectionalEdge({
 
     const onEdgeClick = (evt: React.MouseEvent) => {
         evt.stopPropagation();
+        evt.preventDefault();
+        console.log('[DirectionalEdge] Edge clicked! id:', id, 'showEditPanel:', showEditPanel);
         setShowEditPanel(true);
     };
 
