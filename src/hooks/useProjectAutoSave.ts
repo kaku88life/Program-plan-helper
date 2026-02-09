@@ -1,16 +1,18 @@
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback, useState } from 'react';
 import type { Node, Edge } from '@xyflow/react';
 import { saveProject } from '../db/db';
 import type { Project } from '../types/Project';
 
 export function useProjectAutoSave(projectId: string, nodes: Node[], edges: Edge[], projectName: string = 'Untitled Project') {
-    const isSaving = useRef(false);
+    const [isSavingState, setIsSavingState] = useState(false);
+    const isSavingRef = useRef(false);
     const lastSaveTime = useRef(Date.now());
     const timeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
     const save = useCallback(async () => {
-        if (isSaving.current) return;
-        isSaving.current = true;
+        if (isSavingRef.current) return;
+        isSavingRef.current = true;
+        setIsSavingState(true);
 
         try {
             const project: Project = {
@@ -29,7 +31,8 @@ export function useProjectAutoSave(projectId: string, nodes: Node[], edges: Edge
         } catch (error) {
             console.error('[AutoSave] Failed to save project:', error);
         } finally {
-            isSaving.current = false;
+            isSavingRef.current = false;
+            setIsSavingState(false);
         }
     }, [projectId, projectName, nodes, edges]);
 
@@ -52,6 +55,7 @@ export function useProjectAutoSave(projectId: string, nodes: Node[], edges: Edge
 
     return {
         forceSave: save,
-        lastSaveTime: lastSaveTime.current
+        lastSaveTime: lastSaveTime.current,
+        isSaving: isSavingState
     };
 }

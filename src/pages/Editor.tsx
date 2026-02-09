@@ -17,7 +17,7 @@ import ProjectWizard from '../components/wizard/ProjectWizard';
 import { CodingEncyclopedia } from '../components/knowledge/CodingEncyclopedia';
 import type { ProjectTemplate } from '../data/templates';
 import { useLanguage } from '../context/LanguageContext';
-import { Languages, GraduationCap, Layers, Download, ArrowLeft, Loader2 } from 'lucide-react';
+import { Languages, GraduationCap, Layers, Download, ArrowLeft, Loader2, Cloud, Check } from 'lucide-react';
 import { LayerControl } from '../components/ui/LayerControl';
 import { exportToPng } from '../utils/exportUtils';
 import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
@@ -69,7 +69,7 @@ export function Editor() {
     }, [loading, project]);
 
     // Auto-save logic
-    useProjectAutoSave(projectId!, nodes, edges, project?.name);
+    const { forceSave, isSaving, lastSaveTime } = useProjectAutoSave(projectId!, nodes, edges, project?.name);
 
     // Keyboard shortcuts
     useKeyboardShortcuts({
@@ -290,13 +290,35 @@ export function Editor() {
                 </div>
 
                 {/* Project Name Input (Top Left) */}
-                <div className="absolute top-4 left-4 z-50">
+                <div className="absolute top-4 left-4 z-50 flex items-center gap-3">
                     <input
                         value={project?.name || ''}
                         onChange={(e) => updateProjectName(e.target.value)}
-                        className="bg-transparent text-lg font-semibold text-slate-700 border-b border-transparent hover:border-slate-300 focus:border-blue-500 focus:outline-none px-1 transition-colors"
+                        className="bg-transparent text-lg font-semibold text-slate-700 border-b border-transparent hover:border-slate-300 focus:border-blue-500 focus:outline-none px-1 transition-colors min-w-[200px]"
                         placeholder="Project Name"
                     />
+
+                    {/* Status Indicator & Manual Save */}
+                    <div className="flex items-center gap-2">
+                        {isSaving ? (
+                            <div className="flex items-center gap-1.5 px-2 py-1 bg-white/80 backdrop-blur rounded-full text-xs text-slate-500 border border-slate-200 shadow-sm">
+                                <Loader2 size={12} className="animate-spin text-blue-500" />
+                                {language === 'zh' ? '儲存中...' : 'Saving...'}
+                            </div>
+                        ) : (
+                            <button
+                                onClick={forceSave}
+                                className="flex items-center gap-1.5 px-2 py-1 bg-white/80 backdrop-blur rounded-full text-xs text-slate-500 border border-slate-200 shadow-sm hover:bg-slate-50 hover:text-blue-600 transition-colors group"
+                                title={language === 'zh' ? '點擊手動儲存' : 'Click to save manually'}
+                            >
+                                <Cloud size={12} className="group-hover:text-blue-500" />
+                                <span>{language === 'zh' ? '已儲存' : 'Saved'}</span>
+                                <span className="opacity-0 group-hover:opacity-100 transition-opacity text-[10px] text-slate-400">
+                                    {new Date(lastSaveTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                </span>
+                            </button>
+                        )}
+                    </div>
                 </div>
 
                 <ReactFlow

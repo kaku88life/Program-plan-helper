@@ -42,6 +42,8 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
     // Custom dimensions from PropertiesPanel
     const nodeWidth = (data.nodeWidth as number) || null;
     const nodeHeight = (data.nodeHeight as number) || null;
+    const textAlign = (data.textAlign as 'left' | 'center' | 'right') || 'left';
+    const fontWeight = (data.fontWeight as 'normal' | 'bold') || 'bold';
 
     useEffect(() => {
         setLabel((data.label as string) || 'Node');
@@ -823,8 +825,20 @@ const CustomNode = ({ id, data, selected }: NodeProps) => {
 
                 {/* Body */}
                 <div className="p-4 flex flex-col h-[calc(100%-2rem)]">
-                    <div className="text-sm font-bold text-slate-700 mb-1">{label}</div>
-                    {description && <div className="text-[10px] text-slate-400 line-clamp-2">{description}</div>}
+                    <div
+                        className={`text-sm text-slate-700 mb-1 ${fontWeight === 'bold' ? 'font-bold' : 'font-normal'}`}
+                        style={{ textAlign }}
+                    >
+                        {label}
+                    </div>
+                    {description && (
+                        <div
+                            className="text-[10px] text-slate-400 line-clamp-2"
+                            style={{ textAlign }}
+                        >
+                            {description}
+                        </div>
+                    )}
 
                     <div className="mt-auto w-full border-2 border-dashed border-slate-100 rounded-lg flex items-center justify-center text-xs text-slate-300 py-4 pointer-events-none">
                         Drop items

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { X, Type, Palette, Trash2 } from 'lucide-react';
+import { X, Type, Palette, Trash2, AlignLeft, AlignCenter, AlignRight, Bold } from 'lucide-react';
 import type { Node } from '@xyflow/react';
 import { useLanguage } from '../../context/LanguageContext';
 import { COLORS } from '../../constants/colors';
@@ -44,6 +44,8 @@ export const PropertiesPanel: React.FC<PropertiesPanelProps> = ({
     const [description, setDescription] = useState('');
     const [selectedColor, setSelectedColor] = useState('slate');
     const [selectedSize, setSelectedSize] = useState('medium');
+    const [textAlign, setTextAlign] = useState<string>('left');
+    const [fontWeight, setFontWeight] = useState<string>('bold');
 
     // Sync state with selected node
     useEffect(() => {
@@ -52,6 +54,8 @@ export const PropertiesPanel: React.FC<PropertiesPanelProps> = ({
             setDescription((selectedNode.data.description as string) || '');
             setSelectedColor((selectedNode.data.color as string) || 'slate');
             setSelectedSize((selectedNode.data.size as string) || 'medium');
+            setTextAlign((selectedNode.data.textAlign as string) || 'left');
+            setFontWeight((selectedNode.data.fontWeight as string) || 'bold');
         }
     }, [selectedNode]);
 
@@ -94,6 +98,17 @@ export const PropertiesPanel: React.FC<PropertiesPanelProps> = ({
             size: sizeId,
             sizeScale: sizeOption?.scale || 1
         });
+    };
+
+    const handleTextAlignChange = (align: string) => {
+        setTextAlign(align);
+        onUpdateNode(selectedNode.id, { textAlign: align });
+    };
+
+    const handleFontWeightChange = () => {
+        const newWeight = fontWeight === 'bold' ? 'normal' : 'bold';
+        setFontWeight(newWeight);
+        onUpdateNode(selectedNode.id, { fontWeight: newWeight });
     };
 
     const handlePresetChange = (preset: typeof STYLE_PRESETS[0]) => {
@@ -160,6 +175,51 @@ export const PropertiesPanel: React.FC<PropertiesPanelProps> = ({
                     />
                 </div>
 
+                {/* Text Style Controls */}
+                <div className="space-y-2">
+                    <label className="text-sm font-medium text-slate-700">
+                        {language === 'zh' ? '文字樣式' : 'Text Style'}
+                    </label>
+                    <div className="flex gap-2">
+                        {/* Alignment */}
+                        <div className="flex bg-slate-50 p-1 rounded-lg border border-slate-200">
+                            <button
+                                onClick={() => handleTextAlignChange('left')}
+                                className={`p-1.5 rounded ${textAlign === 'left' ? 'bg-white shadow-sm text-slate-800' : 'text-slate-400 hover:text-slate-600'}`}
+                                title="Align Left"
+                            >
+                                <AlignLeft size={16} />
+                            </button>
+                            <button
+                                onClick={() => handleTextAlignChange('center')}
+                                className={`p-1.5 rounded ${textAlign === 'center' ? 'bg-white shadow-sm text-slate-800' : 'text-slate-400 hover:text-slate-600'}`}
+                                title="Align Center"
+                            >
+                                <AlignCenter size={16} />
+                            </button>
+                            <button
+                                onClick={() => handleTextAlignChange('right')}
+                                className={`p-1.5 rounded ${textAlign === 'right' ? 'bg-white shadow-sm text-slate-800' : 'text-slate-400 hover:text-slate-600'}`}
+                                title="Align Right"
+                            >
+                                <AlignRight size={16} />
+                            </button>
+                        </div>
+
+                        {/* Font Weight */}
+                        <button
+                            onClick={handleFontWeightChange}
+                            className={`p-2 rounded-lg border flex items-center justify-center flex-1 transition-all ${fontWeight === 'bold'
+                                ? 'bg-slate-800 text-white border-slate-800'
+                                : 'bg-white text-slate-600 border-slate-200 hover:border-slate-300'
+                                }`}
+                            title="Toggle Bold"
+                        >
+                            <Bold size={16} />
+                        </button>
+                    </div>
+                </div>
+
                 {/* Color Picker */}
                 <div className="space-y-2">
                     <label className="flex items-center gap-2 text-sm font-medium text-slate-700">
@@ -171,9 +231,9 @@ export const PropertiesPanel: React.FC<PropertiesPanelProps> = ({
                             <button
                                 key={colorOpt.id}
                                 onClick={() => handleColorChange(colorOpt.id)}
-                                className={`w - 8 h - 8 rounded - full ${colorOpt.color} transition - all ${selectedColor === colorOpt.id
-                                        ? 'ring-2 ring-offset-2 ring-primary scale-110'
-                                        : 'hover:scale-105'
+                                className={`w-8 h-8 rounded-full ${colorOpt.color} transition-all ${selectedColor === colorOpt.id
+                                    ? 'ring-2 ring-offset-2 ring-primary scale-110'
+                                    : 'hover:scale-105'
                                     } `}
                                 title={colorOpt.label}
                             />
@@ -191,9 +251,9 @@ export const PropertiesPanel: React.FC<PropertiesPanelProps> = ({
                             <button
                                 key={sizeOpt.id}
                                 onClick={() => handleSizeChange(sizeOpt.id)}
-                                className={`flex - 1 py - 2 px - 3 text - sm font - medium rounded - lg border transition - all ${selectedSize === sizeOpt.id
-                                        ? 'bg-primary text-white border-primary'
-                                        : 'bg-white text-slate-600 border-slate-200 hover:border-primary hover:text-primary'
+                                className={`flex-1 py-2 px-3 text-sm font-medium rounded-lg border transition-all ${selectedSize === sizeOpt.id
+                                    ? 'bg-primary text-white border-primary'
+                                    : 'bg-white text-slate-600 border-slate-200 hover:border-primary hover:text-primary'
                                     } `}
                             >
                                 {language === 'zh' ? sizeOpt.label : sizeOpt.id}
@@ -283,9 +343,9 @@ export const PropertiesPanel: React.FC<PropertiesPanelProps> = ({
                             <button
                                 key={preset.id}
                                 onClick={() => handlePresetChange(preset)}
-                                className={`p - 2 text - xs font - medium rounded - lg border transition - all flex flex - col items - center gap - 1 ${(selectedNode.data.stylePreset as string) === preset.id
-                                        ? 'bg-primary/10 border-primary text-primary'
-                                        : 'bg-white text-slate-600 border-slate-200 hover:border-primary hover:text-primary'
+                                className={`p-2 text-xs font-medium rounded-lg border transition-all flex flex-col items-center gap-1 ${(selectedNode.data.stylePreset as string) === preset.id
+                                    ? 'bg-primary/10 border-primary text-primary'
+                                    : 'bg-white text-slate-600 border-slate-200 hover:border-primary hover:text-primary'
                                     } `}
                             >
                                 <span className="text-base">{preset.icon}</span>
