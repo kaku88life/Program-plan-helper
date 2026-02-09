@@ -17,7 +17,7 @@ import ProjectWizard from '../components/wizard/ProjectWizard';
 import { CodingEncyclopedia } from '../components/knowledge/CodingEncyclopedia';
 import type { ProjectTemplate } from '../data/templates';
 import { useLanguage } from '../context/LanguageContext';
-import { Languages, GraduationCap, Layers, Download, ArrowLeft, Loader2, Cloud, Check } from 'lucide-react';
+import { Languages, GraduationCap, Layers, Download, ArrowLeft, Loader2, Cloud } from 'lucide-react';
 import { LayerControl } from '../components/ui/LayerControl';
 import { exportToPng } from '../utils/exportUtils';
 import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
@@ -59,6 +59,7 @@ export function Editor() {
     const [isExporting, setIsExporting] = useState(false);
     const [showPropertiesPanel, setShowPropertiesPanel] = useState(false);
     const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
+    const [selectedEdgeId, setSelectedEdgeId] = useState<string | null>(null);
     const { language, setLanguage } = useLanguage();
 
     // Show wizard if new empty project
@@ -173,17 +174,35 @@ export function Editor() {
         return nodes.find(n => n.id === selectedNodeId) || null;
     }, [nodes, selectedNodeId]);
 
+    const selectedEdge = useMemo(() => {
+        return edges.find(e => e.id === selectedEdgeId) || null;
+    }, [edges, selectedEdgeId]);
+
     const handleNodesChange = useCallback((changes: Parameters<typeof onNodesChange>[0]) => {
         onNodesChange(changes);
         for (const change of changes) {
             if (change.type === 'select') {
                 if (change.selected) {
                     setSelectedNodeId(change.id);
+                    setSelectedEdgeId(null);
                     setShowPropertiesPanel(true);
                 }
             }
         }
     }, [onNodesChange]);
+
+    const handleEdgesChange = useCallback((changes: Parameters<typeof onEdgesChange>[0]) => {
+        onEdgesChange(changes);
+        for (const change of changes) {
+            if (change.type === 'select') {
+                if (change.selected) {
+                    setSelectedEdgeId(change.id);
+                    setSelectedNodeId(null);
+                    setShowPropertiesPanel(true);
+                }
+            }
+        }
+    }, [onEdgesChange]);
 
     const handleUpdateNode = useCallback((nodeId: string, data: Partial<Node['data']>) => {
         setNodes((nds) => {
@@ -196,7 +215,23 @@ export function Editor() {
     const handleDeleteNode = useCallback((nodeId: string) => {
         setNodes((nds) => nds.filter((node) => node.id !== nodeId));
         setSelectedNodeId(null);
+        setShowPropertiesPanel(false);
     }, [setNodes]);
+
+    const handleUpdateEdge = useCallback((edgeId: string, data: Record<string, any>) => {
+        setEdges((eds) => eds.map((edge) => {
+            if (edge.id === edgeId) {
+                return { ...edge, data: { ...edge.data, ...data } };
+            }
+            return edge;
+        }));
+    }, [setEdges]);
+
+    const handleDeleteEdge = useCallback((edgeId: string) => {
+        setEdges((eds) => eds.filter((edge) => edge.id !== edgeId));
+        setSelectedEdgeId(null);
+        setShowPropertiesPanel(false);
+    }, [setEdges]);
 
     if (loading) {
         return (
@@ -325,7 +360,7 @@ export function Editor() {
                     nodes={nodes}
                     edges={edges}
                     onNodesChange={handleNodesChange}
-                    onEdgesChange={onEdgesChange}
+                    onEdgesChange={handleEdgesChange}
                     onConnect={onConnect}
                     nodeTypes={nodeTypes}
                     edgeTypes={edgeTypes}
@@ -360,11 +395,15 @@ export function Editor() {
             {showPropertiesPanel && (
                 <PropertiesPanel
                     selectedNode={selectedNode}
+                    selectedEdge={selectedEdge}
                     onUpdateNode={handleUpdateNode}
                     onDeleteNode={handleDeleteNode}
+                    onUpdateEdge={handleUpdateEdge}
+                    onDeleteEdge={handleDeleteEdge}
                     onClose={() => {
                         setShowPropertiesPanel(false);
                         setSelectedNodeId(null);
+                        setSelectedEdgeId(null);
                     }}
                 />
             )}

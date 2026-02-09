@@ -77,7 +77,7 @@ export const RichTooltip = ({ content, title, children, fallbackText }: RichTool
             {children}
             {isVisible && createPortal(
                 <div
-                    className="fixed z-[9999] w-[320px] bg-slate-800 text-white rounded-xl shadow-2xl pointer-events-none animate-in fade-in duration-200 overflow-hidden border border-slate-700"
+                    className="fixed z-[9999] w-[320px] bg-slate-800 text-white rounded-xl shadow-2xl pointer-events-none animate-in fade-in zoom-in-95 duration-200 overflow-hidden border border-slate-700"
                     style={{ top: position.top, left: position.left }}
                 >
                     {/* Header */}

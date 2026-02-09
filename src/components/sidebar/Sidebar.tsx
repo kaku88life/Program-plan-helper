@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { useLanguage } from '../../context/LanguageContext';
 import { RichTooltip } from '../ui/RichTooltip';
+import { SimpleTooltip } from '../ui/SimpleTooltip';
 import { TOOLBOX_DATA } from '../../data/toolbox';
 import type { ToolboxItem } from '../../data/toolbox';
 
@@ -73,6 +74,9 @@ const Sidebar = ({ nodeCounts = {} }: SidebarProps) => {
         // @ts-ignore
         const uiDescription = !isTech && item.labelKey ? t.uiDescriptions[item.labelKey] : undefined;
 
+        // Determine content for the tooltip (tech summary or ui description)
+        const tooltipContent = isTech ? techDetails?.summary : uiDescription;
+
         const content = (
             <div
                 className={`
@@ -92,54 +96,29 @@ const Sidebar = ({ nodeCounts = {} }: SidebarProps) => {
                     </span>
                 )}
 
-                {/* Question mark icon for tooltip with refined positioning */}
-                {(isTech || uiDescription) && (
-                    <div className="relative group/tip">
-                        <div className="p-1 cursor-help text-slate-400 hover:text-slate-600 group-hover:opacity-100 opacity-50 transition-opacity">
-                            <HelpCircle size={12} />
+                {/* Question mark icon with Portal-based SimpleTooltip */}
+                {(tooltipContent) && (
+                    <SimpleTooltip content={
+                        <div>
+                            <div className="font-bold text-slate-100 mb-1">{label}</div>
+                            <div>{tooltipContent}</div>
                         </div>
-
-                        {/* Tooltip Content - fixed position to escape overflow */}
-                        <div className="fixed left-[280px] top-auto z-[9999] opacity-0 group-hover/tip:opacity-100 pointer-events-none transition-opacity duration-200" style={{ marginTop: '-20px' }}>
-                            <div className="bg-slate-800 text-white text-xs px-3 py-2 rounded-lg shadow-2xl w-[220px] whitespace-normal border border-slate-700 relative">
-                                {/* Small Arrow */}
-                                <div className="absolute right-full top-1/2 -translate-y-1/2 border-8 border-transparent border-r-slate-800" />
-
-                                <div className="font-medium text-slate-100 mb-1">{label}</div>
-                                <div className="text-slate-300 leading-relaxed">{techDetails?.summary || uiDescription}</div>
-                            </div>
+                    }>
+                        <div className="p-1 cursor-help text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors">
+                            <HelpCircle size={14} />
                         </div>
-                    </div>
+                    </SimpleTooltip>
                 )}
             </div>
         );
 
-        // Wrap with tooltip for tech items
+        // Wrap with RichTooltip only for tech items if needed
         if (isTech && techDetails) {
             return (
                 <div key={item.id} className="relative group/item">
                     <RichTooltip title={label} content={techDetails}>
                         {content}
                     </RichTooltip>
-                </div>
-            );
-        }
-
-        // Wrap with simple tooltip for UI items
-        if (uiDescription) {
-            return (
-                <div key={item.id} className="relative group/tip">
-                    {content}
-                    <div className="fixed left-[280px] top-auto z-[9999] opacity-0 group-hover/tip:opacity-100 pointer-events-none transition-opacity duration-200" style={{ marginTop: '-20px' }}>
-                        {/* Tooltip Content */}
-                        <div className="bg-slate-800 text-white text-xs px-3 py-2 rounded-lg shadow-2xl w-[220px] whitespace-normal border border-slate-700 relative">
-                            {/* Small Arrow */}
-                            <div className="absolute right-full top-1/2 -translate-y-1/2 border-8 border-transparent border-r-slate-800" />
-
-                            <div className="font-medium text-slate-100 mb-1">{label}</div>
-                            <div className="text-slate-300 leading-relaxed">{uiDescription}</div>
-                        </div>
-                    </div>
                 </div>
             );
         }
