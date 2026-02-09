@@ -208,29 +208,37 @@ export default function DirectionalEdge({
 
     return (
         <>
-            {/* Arrow marker definitions */}
+            {/* Arrow marker definitions - smoother design */}
             <defs>
                 <marker
                     id="arrow-forward"
-                    viewBox="0 0 10 10"
-                    refX="8"
-                    refY="5"
-                    markerWidth="6"
-                    markerHeight="6"
-                    orient="auto-start-reverse"
+                    viewBox="0 0 12 12"
+                    refX="10"
+                    refY="6"
+                    markerWidth="8"
+                    markerHeight="8"
+                    orient="auto"
                 >
-                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b" />
+                    <path
+                        d="M 2 2 L 10 6 L 2 10 L 4 6 Z"
+                        fill="#64748b"
+                        strokeLinejoin="round"
+                    />
                 </marker>
                 <marker
                     id="arrow-backward"
-                    viewBox="0 0 10 10"
-                    refX="8"
-                    refY="5"
-                    markerWidth="6"
-                    markerHeight="6"
-                    orient="auto-start-reverse"
+                    viewBox="0 0 12 12"
+                    refX="2"
+                    refY="6"
+                    markerWidth="8"
+                    markerHeight="8"
+                    orient="auto"
                 >
-                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b" />
+                    <path
+                        d="M 10 2 L 2 6 L 10 10 L 8 6 Z"
+                        fill="#64748b"
+                        strokeLinejoin="round"
+                    />
                 </marker>
             </defs>
 
