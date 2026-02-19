@@ -17,9 +17,9 @@ import ProjectWizard from '../components/wizard/ProjectWizard';
 import { CodingEncyclopedia } from '../components/knowledge/CodingEncyclopedia';
 import type { ProjectTemplate } from '../data/templates';
 import { useLanguage } from '../context/LanguageContext';
-import { Languages, GraduationCap, Layers, Download, ArrowLeft, Loader2, Cloud } from 'lucide-react';
+import { Languages, GraduationCap, Layers, Download, ArrowLeft, Loader2, Cloud, FileText } from 'lucide-react';
 import { LayerControl } from '../components/ui/LayerControl';
-import { exportToPng } from '../utils/exportUtils';
+import { exportToPng, exportToMarkdown } from '../utils/exportUtils';
 import { useKeyboardShortcuts } from '../hooks/useKeyboardShortcuts';
 import { useOnboarding } from '../hooks/useOnboarding';
 import { PropertiesPanel } from '../components/panels/PropertiesPanel';
@@ -274,7 +274,7 @@ export function Editor() {
                         {language === 'zh' ? '返回列表' : 'Back'}
                     </button>
 
-                    {/* Export Button */}
+                    {/* Export PNG Button */}
                     <button
                         onClick={async () => {
                             setIsExporting(true);
@@ -291,6 +291,22 @@ export function Editor() {
                     >
                         <Download size={16} />
                         {isExporting ? (language === 'zh' ? '匯出中...' : 'Exporting...') : (language === 'zh' ? '匯出圖片' : 'PNG')}
+                    </button>
+
+                    {/* Export Markdown Button */}
+                    <button
+                        onClick={() => {
+                            exportToMarkdown(
+                                nodes as any,
+                                edges as any,
+                                project?.name || 'Program Plan',
+                                project?.name || 'program-plan'
+                            );
+                        }}
+                        className="flex items-center gap-2 px-3 py-1.5 bg-white shadow-md rounded-full border border-slate-200 text-sm font-medium text-violet-600 hover:text-violet-700 hover:border-violet-300 transition-all hover:bg-violet-50"
+                    >
+                        <FileText size={16} />
+                        {language === 'zh' ? '匯出 Markdown' : 'Markdown'}
                     </button>
 
                     {/* Encyclopedia Button */}
