@@ -90,7 +90,7 @@ export function Editor() {
         }
     });
 
-    useOnboarding();
+    useOnboarding(!showWizard);
 
     const nodeCounts = useMemo(() => {
         const counts: Record<string, number> = {};

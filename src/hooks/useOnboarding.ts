@@ -5,7 +5,7 @@ import { useLanguage } from '../context/LanguageContext';
 
 const ONBOARDING_COMPLETED_KEY = 'program-plan-helper-onboarding-completed';
 
-export const useOnboarding = () => {
+export const useOnboarding = (enabled: boolean = true) => {
     const { language } = useLanguage();
     const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(() => {
         return localStorage.getItem(ONBOARDING_COMPLETED_KEY) === 'true';
@@ -100,16 +100,16 @@ export const useOnboarding = () => {
         driverObj.drive();
     };
 
-    // Auto-start onboarding for first-time users
+    // Auto-start onboarding for first-time users (only when enabled)
     useEffect(() => {
-        if (!hasCompletedOnboarding) {
+        if (!hasCompletedOnboarding && enabled) {
             // Small delay to ensure DOM is ready
             const timer = setTimeout(() => {
                 startOnboarding();
-            }, 1000);
+            }, 800);
             return () => clearTimeout(timer);
         }
-    }, [hasCompletedOnboarding]);
+    }, [hasCompletedOnboarding, enabled]);
 
     const resetOnboarding = () => {
         localStorage.removeItem(ONBOARDING_COMPLETED_KEY);
