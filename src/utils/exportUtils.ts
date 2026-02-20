@@ -138,7 +138,7 @@ interface FlowEdge {
 // Toolbox ID to ASCII art representation
 // Keys match the `toolboxId` values from src/data/toolbox.ts
 const toolboxIdToAscii: Record<string, (label: string, width: number) => string[]> = {
-    navbar: (label, w) => {
+    navbar: (_label, w) => {
         const inner = w - 4;
         const items = 'Logo    [Home]  [About]  [Contact]';
         const padded = items.length > inner ? items.slice(0, inner) : items + ' '.repeat(Math.max(0, inner - items.length));
@@ -148,7 +148,7 @@ const toolboxIdToAscii: Record<string, (label: string, width: number) => string[
             '└' + '─'.repeat(w - 2) + '┘',
         ];
     },
-    sidebar: (label, w) => {
+    sidebar: (_label, w) => {
         const inner = w - 4;
         const pad = (s: string) => {
             const t = s.slice(0, inner);
@@ -162,7 +162,7 @@ const toolboxIdToAscii: Record<string, (label: string, width: number) => string[
             '└' + '─'.repeat(w - 2) + '┘',
         ];
     },
-    img: (label, w) => {
+    img: (_label, w) => {
         const inner = w - 4;
         const imgTag = '/IMG\\';
         const padded = Math.floor((inner - imgTag.length) / 2);
@@ -174,25 +174,25 @@ const toolboxIdToAscii: Record<string, (label: string, width: number) => string[
             '└' + '─'.repeat(w - 2) + '┘',
         ];
     },
-    btn_pri: (label, w) => {
+    btn_pri: (label, _w) => {
         const text = `[ ${label} ]`;
         return [text];
     },
-    btn_sec: (label, w) => {
+    btn_sec: (label, _w) => {
         const text = `( ${label} )`;
         return [text];
     },
-    action: (label, w) => {
+    action: (label, _w) => {
         const text = `< ${label} >`;
         return [text];
     },
-    checkbox: (label, w) => {
+    checkbox: (label, _w) => {
         return [`[x] ${label}`];
     },
-    radio: (_label, w) => {
+    radio: (_label, _w) => {
         return [`(●) Option A  ( ) Option B  ( ) Option C`];
     },
-    switch: (label, w) => {
+    switch: (label, _w) => {
         return [`[■□] ${label}`];
     },
     inp_text: (label, w) => {
@@ -204,7 +204,7 @@ const toolboxIdToAscii: Record<string, (label: string, width: number) => string[
             '└' + '─'.repeat(inner) + '┘',
         ];
     },
-    inp_search: (label, w) => {
+    inp_search: (_label, w) => {
         const inner = Math.max(10, w - 4);
         return [
             '┌' + '🔍─' + '─'.repeat(inner - 2) + '┐',
@@ -221,7 +221,7 @@ const toolboxIdToAscii: Record<string, (label: string, width: number) => string[
             '└' + '─'.repeat(inner) + '┘',
         ];
     },
-    table: (label, w) => {
+    table: (_label, w) => {
         const colW = Math.floor((w - 5) / 3);
         const pad = (s: string) => {
             const t = s.slice(0, colW);
@@ -252,7 +252,7 @@ const toolboxIdToAscii: Record<string, (label: string, width: number) => string[
             '╚' + '═'.repeat(w - 2) + '╝',
         ];
     },
-    tabs: (label, w) => {
+    tabs: (_label, _w) => {
         return [
             `┌──────┐──────┐──────┐`,
             `│ Tab1 │ Tab2 │ Tab3 │`,
@@ -262,20 +262,20 @@ const toolboxIdToAscii: Record<string, (label: string, width: number) => string[
     divider: (_label, w) => {
         return ['─'.repeat(Math.max(w, 20))];
     },
-    breadcrumb: (label, w) => {
+    breadcrumb: (label, _w) => {
         return [`Home > ${label || 'Page'} > Current`];
     },
-    list: (label, w) => {
+    list: (label, _w) => {
         return [
             `• ${label || 'Item'} 1`,
             `• ${label || 'Item'} 2`,
             `• ${label || 'Item'} 3`,
         ];
     },
-    tag: (label, w) => {
+    tag: (label, _w) => {
         return [`〔${label}〕`];
     },
-    badge: (label, w) => {
+    badge: (label, _w) => {
         return [`(${label})`];
     },
     alert: (label, w) => {
@@ -290,10 +290,10 @@ const toolboxIdToAscii: Record<string, (label: string, width: number) => string[
             '└' + '─'.repeat(inner + 2) + '┘',
         ];
     },
-    toast: (label, w) => {
+    toast: (label, _w) => {
         return [`🔔 ${label || 'Notification'}`];
     },
-    avatar: (label, w) => {
+    avatar: (label, _w) => {
         return [`(👤) ${label}`];
     },
     container: (label, w) => {
@@ -563,8 +563,6 @@ export const exportToMarkdown = (
         });
 
         edges.forEach(edge => {
-            const sourceLabel = nodeMap.get(edge.source)?.data.label || edge.source;
-            const targetLabel = nodeMap.get(edge.target)?.data.label || edge.target;
             const edgeLabel = edge.data?.label ? `|${edge.data.label}|` : '';
             lines.push(`    ${edge.source} -->${edgeLabel} ${edge.target}`);
         });
